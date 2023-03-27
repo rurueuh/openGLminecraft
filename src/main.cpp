@@ -100,37 +100,66 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 int main(int argc, char** argv)
 {
     srand(time(NULL));
-    Window window(1920, 1080, "OpenGL");
+    std::shared_ptr<Camera> camera = std::make_shared<Camera>(
+        glm::vec3(0, 3, 0), glm::vec3(0, 0, 0), 45.0f, 1920, 1080, 0.1f, 10000.0f
+    );
+    camera->RotateLeft(90.0f);
+    Window window(1920, 1080, "OpenGL", camera);
 
-    GLuint VertexArrayID;
+    GLuint VertexArrayID; // TODO: understand what this is
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
-    
 
     GLuint programID = LoadShaders( "../assets/SimpleVertexShader.vertexshader", "../assets/SimpleFragmentShader.fragmentshader" );
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
-    std::array<Mesh, 1> *mesh = new std::array<Mesh, 1>;
+    std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>("../assets/Epitech.obj");
 
-    while (window.shouldClose() == false) {
+    float speed = 0.01f;
+
+    while (window.shouldClose() == false && window.isKeyPressed(GLFW_KEY_ESCAPE) != GLFW_PRESS) {
         window.clear();
         glUseProgram(programID);
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &window.getCamera()->getMVP()[0][0]);
 
-        double currentTime = glfwGetTime();
-        for (auto &i : *mesh) {
-            i.draw();
-            const float random = 1.0f;
-            float x = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / random)) - random / 2;
-            float y = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / random)) - random / 2;
-            float z = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / random)) - random / 2;
-            if (currentTime <= 10.0) {
-                // i.translate(glm::vec3(x, y, z));
-            }
-        }
+        mesh->draw();
         window.update();
+
+        if (window.isKeyPressed(GLFW_KEY_W) == GLFW_PRESS)
+            camera->MoveForward(speed);
+        if (window.isKeyPressed(GLFW_KEY_S) == GLFW_PRESS)
+            camera->MoveBackward(speed);
+        if (window.isKeyPressed(GLFW_KEY_A) == GLFW_PRESS)
+            camera->MoveLeft(speed);
+        if (window.isKeyPressed(GLFW_KEY_D) == GLFW_PRESS)
+            camera->MoveRight(speed);
+        if (window.isKeyPressed(GLFW_KEY_SPACE) == GLFW_PRESS)
+            camera->MoveUp(speed);
+        if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+            camera->MoveDown(speed);
+        
+        if (window.isKeyPressed(GLFW_KEY_LEFT) == GLFW_PRESS)
+            speed -= 0.001f;
+        if (window.isKeyPressed(GLFW_KEY_RIGHT) == GLFW_PRESS)
+            speed += 0.001f;
+
+        auto mousePos = window.getMousePosition();
+        glm::vec2 diff = mousePos - glm::vec2(1920 / 2, 1080 / 2);
+
+        if (diff.x != 0)
+            camera->RotateRight(diff.x * 0.1f);
+        if (diff.y != 0)
+            camera->RotateLeft(diff.y * 0.1f);
+        window.setMousePosition(glm::vec2(1920 / 2, 1080 / 2));
+
+        if (window.isKeyPressed(GLFW_KEY_Q) == GLFW_PRESS)
+            camera->RotateLeft(0.5f);
+        if (window.isKeyPressed(GLFW_KEY_E) == GLFW_PRESS)
+            camera->RotateRight(0.5f);
+
         
         // get elapsed time
+        double currentTime = glfwGetTime();
         static double lastTime = 0.0;
         double deltaTime = currentTime - lastTime;
         lastTime = currentTime;
@@ -138,8 +167,6 @@ int main(int argc, char** argv)
 
         window.render();
     }
-
     glDeleteVertexArrays(1, &VertexArrayID);
     glDeleteProgram(programID);
-
 }

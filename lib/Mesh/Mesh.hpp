@@ -18,7 +18,7 @@ using namespace glm;
 
 class Mesh {
     public:
-        Mesh();
+        Mesh(std::string pathOBJ);
         ~Mesh();
 
         void draw() const;

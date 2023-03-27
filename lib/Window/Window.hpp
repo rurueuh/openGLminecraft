@@ -19,14 +19,22 @@
 
 class Window {
     public:
-        Window(float width, float height, const std::string &title);
+        Window(float width, float height, const std::string &title, std::shared_ptr<Camera> &camera);
         ~Window();
 
         std::shared_ptr<GLFWwindow> getWindow() const { return _window; };
-        Camera * getCamera() const { return _camera; };
+        std::shared_ptr<Camera> getCamera() const { return _camera; };
 
         bool shouldClose() const { return glfwWindowShouldClose(_window.get()); };
         bool isKeyPressed(int key) const { return glfwGetKey(_window.get(), key) == GLFW_PRESS; };
+
+        glm::vec2 getMousePosition() const {
+            double xpos, ypos;
+            glfwGetCursorPos(_window.get(), &xpos, &ypos);
+            return glm::vec2(xpos, ypos);
+        };
+
+        void setMousePosition(const glm::vec2 &pos) const { glfwSetCursorPos(_window.get(), pos.x, pos.y); };
 
         void clear() const { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); };
         void update();
@@ -39,7 +47,7 @@ class Window {
         std::shared_ptr<GLFWwindow> initWindow();
         std::shared_ptr<GLFWwindow> _window;
 
-        Camera * _camera;
+        std::shared_ptr<Camera> _camera;
 
         int _width;
         int _height;

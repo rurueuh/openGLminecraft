@@ -7,9 +7,9 @@
 
 #include "Mesh.hpp"
 
-Mesh::Mesh()
+Mesh::Mesh(std::string pathOBJ)
 {
-    loadObj("../assets/Epitech.obj");
+    loadObj(pathOBJ);
 
     glGenBuffers(1, &_colorbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _colorbuffer);
