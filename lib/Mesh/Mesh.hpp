@@ -14,7 +14,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 using namespace glm;
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include <array>
 
 class Mesh {
     public:

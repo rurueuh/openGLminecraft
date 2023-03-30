@@ -47,6 +47,7 @@ IF (WIN32)
     link_directories(${SFML_LIB_DIR})
 ENDIF()
 link_directories("externalLib/glew-2.1.0/lib/Release/x64/")
+link_directories("externalLib/glew-2.1.0/bin/Release/x64/")
 link_directories("externalLib/glfw-3.3.8.bin.WIN64/lib-mingw-w64/")
 link_directories("externalLib/glm")
 
@@ -54,18 +55,14 @@ add_executable(game ${helloworld_SRC})
 
 target_link_libraries(game myOpengl)
 
-if (WIN32)
-    target_link_libraries(game 
-        myOpengl 
-        ${SFML_LIBRARIES} 
-        glfw3
-        glew32
-        opengl32 
-        glu32 
-    )
-else ()
-    target_link_libraries(game glfw GL GLEW GLU glut)
-endif ()
+target_link_libraries(game 
+    myOpengl 
+    ${SFML_LIBRARIES} 
+    glfw3
+    glew32
+    opengl32 
+    glu32 
+)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

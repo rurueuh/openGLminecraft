@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 using namespace glm;
-#include <bits/stdc++.h>
+#include <iostream>
 #include "Window.hpp"
 #include "Mesh.hpp"
 
@@ -110,10 +110,10 @@ int main(int argc, char** argv)
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-    GLuint programID = LoadShaders( "../assets/SimpleVertexShader.vertexshader", "../assets/SimpleFragmentShader.fragmentshader" );
+    GLuint programID = LoadShaders( "../../../assets/SimpleVertexShader.vertexshader", "../../../assets/SimpleFragmentShader.fragmentshader" );
     GLuint MatrixID = glGetUniformLocation(programID, "MVP");
 
-    std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>("../assets/Epitech.obj");
+    std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>("../../../assets/Epitech.obj");
 
     float speed = 0.01f;
 

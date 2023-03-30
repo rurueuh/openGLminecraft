@@ -36,92 +36,67 @@ static void fixLine(std::istringstream &iss)
     iss.clear();
 }
 
-static bool _loadOBJ (const char * path, std::vector<glm::vec3> & out_vertices, std::vector<glm::vec2> & out_uvs,std::vector<glm::vec3> & out_normals)
+static bool _loadOBJ (const char * path, std::vector<glm::vec3> &out_vertices, std::vector<glm::vec2> &out_uvs,std::vector<glm::vec3> &out_normals)
 {
 	printf("Loading OBJ file %s...\n", path);
 
 	std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
-	std::vector<glm::vec3> temp_vertices; 
-	std::vector<glm::vec2> temp_uvs;
-	std::vector<glm::vec3> temp_normals;
+	std::vector<glm::vec3> tmp_vertices; 
+	std::vector<glm::vec2> tmp_uvs;
+	std::vector<glm::vec3> tmp_normals;
 
-
-	FILE * file = fopen(path, "r");
-	if( file == NULL ){
-		printf("Impossible to open the file ! Are you in the right path ? See Tutorial 1 for details\n");
-		getchar();
-		return false;
+    std::ifstream file(path);
+	if( file.is_open() == false) {
+        throw std::exception("RuruEngine : can't load obj file");
 	}
 
-	while( 1 ){
+	while (1) {
 
-		char lineHeader[128];
-		// read the first word of the line
-		int res = fscanf(file, "%s", lineHeader);
-		if (res == EOF)
-			break; // EOF = End Of File. Quit the loop.
-
-		// else : parse lineHeader
-		
-		if ( strcmp( lineHeader, "v" ) == 0 ){
-			glm::vec3 vertex;
-			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z );
-			temp_vertices.push_back(vertex);
-		}else if ( strcmp( lineHeader, "vt" ) == 0 ){
-			glm::vec2 uv;
-			fscanf(file, "%f %f\n", &uv.x, &uv.y );
-			uv.y = -uv.y; // Invert V coordinate since we will only use DDS texture, which are inverted. Remove if you want to use TGA or BMP loaders.
-			temp_uvs.push_back(uv);
-		}else if ( strcmp( lineHeader, "vn" ) == 0 ){
-			glm::vec3 normal;
-			fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z );
-			temp_normals.push_back(normal);
-		}else if ( strcmp( lineHeader, "f" ) == 0 ){
-			std::string vertex1, vertex2, vertex3;
-			unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
-			int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
-			if (matches != 9){
-				printf("File can't be read by our simple parser :-( Try exporting with other options\n");
-				fclose(file);
-				return false;
-			}
-			vertexIndices.push_back(vertexIndex[0]);
-			vertexIndices.push_back(vertexIndex[1]);
-			vertexIndices.push_back(vertexIndex[2]);
-			uvIndices    .push_back(uvIndex[0]);
-			uvIndices    .push_back(uvIndex[1]);
-			uvIndices    .push_back(uvIndex[2]);
-			normalIndices.push_back(normalIndex[0]);
-			normalIndices.push_back(normalIndex[1]);
-			normalIndices.push_back(normalIndex[2]);
-		} else{
-			// Probably a comment, eat up the rest of the line
-			char stupidBuffer[1000];
-			fgets(stupidBuffer, 1000, file);
-		}
-
+        std::string line;
+        if (!std::getline(file, line))
+			break;
+		std::istringstream iss(line);
+		std::string trash;
+		if (!(iss >> trash))
+            continue;
+        if (trash == "v") {
+            glm::vec3 vertex{};
+            iss >> vertex.x >> vertex.y >> vertex.z;
+			tmp_vertices.push_back(vertex);
+        } else if (trash == "vt") {
+            glm::vec2 uv{};
+            iss >> uv.x >> uv.y;
+            uv.y = -uv.y;
+            tmp_uvs.push_back(uv);
+        } else if (trash == "vn") {
+            glm::vec3 normal{};
+            iss >> normal.x >> normal.y >> normal.z;
+            tmp_normals.push_back(normal);
+        } else if (trash == "f") {
+            unsigned int vertexIndex[3] = {0}, uvIndex[3] = {0}, normalIndex[3] = {0};
+            char trash = '0';
+            for (int i = 0; i < 3; i++) {
+                iss >> vertexIndex[i] >> trash >> uvIndex[i] >> trash >> normalIndex[i];
+			    vertexIndices.push_back(vertexIndex[i]);
+			    uvIndices.push_back(uvIndex[i]);
+			    normalIndices.push_back(normalIndex[i]);
+            }
+        }
 	}
 
-	// For each vertex of each triangle
 	for( unsigned int i=0; i<vertexIndices.size(); i++ ){
-
-		// Get the indices of its attributes
 		unsigned int vertexIndex = vertexIndices[i];
 		unsigned int uvIndex = uvIndices[i];
 		unsigned int normalIndex = normalIndices[i];
 		
-		// Get the attributes thanks to the index
-		glm::vec3 vertex = temp_vertices[ vertexIndex-1 ];
-		glm::vec2 uv = temp_uvs[ uvIndex-1 ];
-		glm::vec3 normal = temp_normals[ normalIndex-1 ];
+        glm::vec3 vertex = tmp_vertices[static_cast<std::vector<glm::vec3, std::allocator<glm::vec3>>::size_type>(vertexIndex) - 1];
+        glm::vec2 uv = tmp_uvs[static_cast<std::vector<glm::vec2, std::allocator<glm::vec2>>::size_type>(uvIndex) - 1];
+        glm::vec3 normal = tmp_normals[static_cast<std::vector<glm::vec3, std::allocator<glm::vec3>>::size_type>(normalIndex) - 1];
 		
-		// Put the attributes in buffers
 		out_vertices.push_back(vertex);
-		out_uvs     .push_back(uv);
+		out_uvs.push_back(uv);
 		out_normals .push_back(normal);
-	
 	}
-	fclose(file);
 	return true;
 }
 
@@ -132,7 +107,7 @@ void Mesh::loadObj(const std::string path)
     std::vector<glm::vec3> normals;
 
     _loadOBJ(path.c_str(), vertices, uvs, normals);
-    this->generateColor(vertices.size() + 60);
+    this->generateColor(vertices.size());
 
     for (int i = 0; i < vertices.size(); i++) {
         _buffer.push_back(vertices[i].x);
@@ -177,8 +152,8 @@ void Mesh::translate(glm::vec3 vec)
 {
     for (int i = 0; i < _buffer.size(); i += 3) {
         _buffer[i] += vec.x;
-        _buffer[i + 1] += vec.y;
-        _buffer[i + 2] += vec.z;
+        _buffer[static_cast<std::vector<GLfloat, std::allocator<GLfloat>>::size_type>(i) + 1] += vec.y;
+        _buffer[static_cast<std::vector<GLfloat, std::allocator<GLfloat>>::size_type>(i) + 2] += vec.z;
     }
     _position += vec;
 
@@ -193,13 +168,13 @@ void Mesh::rotate(glm::vec3 vec)
 
     for (int i = 0; i < _buffer.size(); i += 3) {
         pos.x += _buffer[i];
-        pos.y += _buffer[i + 1];
-        pos.z += _buffer[i + 2];
+        pos.y += _buffer[static_cast<std::vector<GLfloat, std::allocator<GLfloat>>::size_type>(i) + 1];
+        pos.z += _buffer[static_cast<std::vector<GLfloat, std::allocator<GLfloat>>::size_type>(i) + 2];
     }
 
-    pos.x /= _buffer.size() / 3;
-    pos.y /= _buffer.size() / 3;
-    pos.z /= _buffer.size() / 3;
+    pos.x /= _buffer.size() / static_cast<float>(3);
+    pos.y /= _buffer.size() / static_cast<float>(3);
+    pos.z /= _buffer.size() / static_cast<float>(3);
 
     rot = glm::rotate(rot, glm::radians(vec.x), glm::vec3(1.0f, 0.0f, 0.0f));
     rot = glm::rotate(rot, glm::radians(vec.y), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -207,18 +182,18 @@ void Mesh::rotate(glm::vec3 vec)
 
     glm::vec3 new_pos = glm::vec3(0.0f);
     for (int i = 0; i < _buffer.size(); i += 3) {
-        glm::vec4 tmp = rot * glm::vec4(_buffer[i] - pos.x, _buffer[i + 1] - pos.y, _buffer[i + 2] - pos.z, 1.0f);
+        glm::vec4 tmp = rot * glm::vec4(_buffer[i] - pos.x, _buffer[static_cast<std::vector<GLfloat, std::allocator<GLfloat>>::size_type>(i) + 1] - pos.y, _buffer[static_cast<std::vector<GLfloat, std::allocator<GLfloat>>::size_type>(i) + + 2] - pos.z, 1.0f);
         _buffer[i] = tmp.x + pos.x;
-        _buffer[i + 1] = tmp.y + pos.y;
-        _buffer[i + 2] = tmp.z + pos.z;
+        _buffer[static_cast<std::vector<GLfloat, std::allocator<GLfloat>>::size_type>(i) + 1] = tmp.y + pos.y;
+        _buffer[static_cast<std::vector<GLfloat, std::allocator<GLfloat>>::size_type>(i) + 2] = tmp.z + pos.z;
         new_pos.x += _buffer[i];
-        new_pos.y += _buffer[i + 1];
-        new_pos.z += _buffer[i + 2];
+        new_pos.y += _buffer[static_cast<std::vector<GLfloat, std::allocator<GLfloat>>::size_type>(i) + 1];
+        new_pos.z += _buffer[static_cast<std::vector<GLfloat, std::allocator<GLfloat>>::size_type>(i) + 2];
     }
 
-    new_pos.x /= _buffer.size() / 3;
-    new_pos.y /= _buffer.size() / 3;
-    new_pos.z /= _buffer.size() / 3;
+    new_pos.x /= _buffer.size() / static_cast<float>(3);
+    new_pos.y /= _buffer.size() / static_cast<float>(3);
+    new_pos.z /= _buffer.size() / static_cast<float>(3);
 
     glm::vec3 diff = pos - new_pos;
     std::cout << "pos: " << pos.x << " " << pos.y << " " << pos.z << std::endl;
