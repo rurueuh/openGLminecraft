@@ -15,7 +15,7 @@ foreach (file ${libsrc})
     endif()
 endforeach()
 
-add_library(myOpengl ${libsrc})
+add_library(myOpengl ${libsrc} "src/main.hpp")
 
 
 project(game VERSION 0.1.0)
@@ -51,7 +51,7 @@ link_directories("externalLib/glew-2.1.0/bin/Release/x64/")
 link_directories("externalLib/glfw-3.3.8.bin.WIN64/lib-mingw-w64/")
 link_directories("externalLib/glm")
 
-add_executable(game ${helloworld_SRC})
+add_executable(game ${helloworld_SRC} "src/main.hpp")
 
 target_link_libraries(game myOpengl)
 
