@@ -22,20 +22,6 @@ Mesh::~Mesh()
     glDeleteBuffers(1, &_colorbuffer);
 }
 
-static void fixLine(std::istringstream &iss)
-{
-    // remove all 'f'
-    std::string line;
-    std::getline(iss, line);
-    line.erase(std::remove(line.begin(), line.end(), 'f'), line.end());
-    line.erase(std::remove(line.begin(), line.end(), 'F'), line.end());
-
-    // replace all ',' by ' '
-    std::replace(line.begin(), line.end(), ',', ' ');
-    iss.str(line);
-    iss.clear();
-}
-
 static bool _loadOBJ (const char * path, std::vector<glm::vec3> &out_vertices, std::vector<glm::vec2> &out_uvs,std::vector<glm::vec3> &out_normals)
 {
 	printf("Loading OBJ file %s...\n", path);
@@ -120,7 +106,7 @@ void Mesh::loadObj(const std::string path)
     glBufferData(GL_ARRAY_BUFFER, _buffer.size() * sizeof(GLfloat) + 3, _buffer.data(), GL_STATIC_DRAW);
 }
 
-void Mesh::generateColor(int size)
+void Mesh::generateColor(size_t size)
 {
     _buffer_color.clear();
     for (int i = 0; i < size; i++) {
@@ -140,7 +126,7 @@ void Mesh::draw() const
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
 
-    glDrawArrays(GL_TRIANGLES, 0, _buffer.size());
+    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(_buffer.size()));
     glDisableVertexAttribArray(0);
     
     glEnableVertexAttribArray(1);

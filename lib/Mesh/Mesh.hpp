@@ -13,7 +13,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
-using namespace glm;
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -50,7 +50,7 @@ class Mesh {
 
         glm::mat4 _model = glm::mat4(1.0f);
 
-        void generateColor(int size);
+        void generateColor(size_t size);
         std::vector<GLfloat> _buffer_color = {
             0.583f,  0.771f,  0.014f,
             0.609f,  0.115f,  0.436f,
