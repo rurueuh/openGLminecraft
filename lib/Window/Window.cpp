@@ -7,7 +7,7 @@
 
 #include "Window.hpp"
 
-Window::Window(float width, float height, const std::string &title, std::shared_ptr<Camera> &camera)
+Window::Window(int width, int height, const std::string &title, std::shared_ptr<Camera> &camera)
     : _width(width), _height(height), _title(title)
 {
     _window = initWindow();
@@ -52,7 +52,7 @@ std::shared_ptr<GLFWwindow> Window::initWindow()
 
     glfwMakeContextCurrent(window.get());
     glfwSetInputMode(window.get(), GLFW_STICKY_KEYS, GL_TRUE);
-
+    glfwSwapInterval(0);
     initglew();
 
     glEnable(GL_DEPTH_TEST);
@@ -70,6 +70,20 @@ void Window::render() const
 {
     glfwSwapBuffers(_window.get());
     glfwPollEvents();
+}
+
+double Window::getFPS()
+{
+    double currentTime = glfwGetTime();
+    static double lastTime = 0.0;
+    double deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
+    return (1.0 / deltaTime);
+}
+
+void Window::setTitle(const std::string& name)
+{
+    glfwSetWindowTitle(_window.get(), name.c_str());
 }
 
 void Window::update()
