@@ -8,10 +8,10 @@
 #include "Camera.hpp"
 
 Camera::Camera(glm::vec3 position, glm::vec3 target, 
-                float fov,
-                float width, float height,
-                float near, float far
-            )
+    float fov,
+    float width, float height,
+    float near, float far
+)
 {
     _projection = glm::perspective(fov, width / height, near, far);
     _cameraPos = position;
