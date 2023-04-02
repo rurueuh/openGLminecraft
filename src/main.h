@@ -6,6 +6,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
+#define STB_IMAGE_IMPLEMENTATION
+
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,6 +18,7 @@
 #include <numeric>
 #include <string>
 #include <vector>
+#include <time.h>
 
 #include <Shader.hpp>
 #include "Window.hpp"
