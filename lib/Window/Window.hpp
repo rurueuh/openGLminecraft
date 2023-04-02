@@ -15,7 +15,6 @@
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 #include "../Camera/Camera.hpp"
-#include "../Mesh/Mesh.hpp"
 
 class Window {
     public:
@@ -24,7 +23,7 @@ class Window {
 
         // Getters
         std::shared_ptr<GLFWwindow> getWindow() const { return _window; };
-        std::shared_ptr<Camera> getCamera() const { return _camera; };
+        static std::shared_ptr<Camera> getCamera() { return _camera; };
         glm::vec2 getMousePosition() const {
             double xpos, ypos;
             glfwGetCursorPos(_window.get(), &xpos, &ypos);
@@ -41,7 +40,6 @@ class Window {
 
         void clear() const { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); };
         void update();
-        void draw(const Mesh &mesh) const;
         void render() const;
 
     protected:
@@ -50,7 +48,7 @@ class Window {
         std::shared_ptr<GLFWwindow> initWindow();
         std::shared_ptr<GLFWwindow> _window;
 
-        std::shared_ptr<Camera> _camera;
+        static std::shared_ptr<Camera> _camera;
 
         int _width;
         int _height;

@@ -9,7 +9,15 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
+#include <algorithm>
+#include <functional>
+#include <iostream>
+#include <numeric>
+#include <string>
+#include <vector>
 
+#include <Shader.hpp>
 #include "Window.hpp"
 #include "Mesh.hpp"
 

@@ -7,6 +7,8 @@
 
 #include "Window.hpp"
 
+std::shared_ptr<Camera> Window::_camera = nullptr;
+
 Window::Window(int width, int height, const std::string &title, std::shared_ptr<Camera> &camera)
     : _width(width), _height(height), _title(title)
 {
@@ -59,11 +61,6 @@ std::shared_ptr<GLFWwindow> Window::initWindow()
     glDepthFunc(GL_LESS);
     glEnable(GL_CULL_FACE);
     return window;
-}
-
-void Window::draw(const Mesh &mesh) const
-{
-    mesh.draw();
 }
 
 void Window::render() const

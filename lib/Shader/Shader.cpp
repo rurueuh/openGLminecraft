@@ -1,5 +1,4 @@
-#include "main.h"
-
+#include "Shader.hpp"
 
 static GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path) {
 
@@ -89,99 +88,33 @@ static GLuint LoadShaders(const char* vertex_file_path, const char* fragment_fil
     return ProgramID;
 }
 
-int main_(int ac, char** av)
+Shader::Shader(const char* path)
 {
-    srand(static_cast<time_t>(time(NULL)));
-    std::shared_ptr<Camera> camera = std::make_shared<Camera>(
-        glm::vec3(5.0f, 5.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f, 1920, 1080, 0.1f, 10000.0f
-    );
-    camera->RotateLeft(40.0f);
-    camera->RotateDown(40.0f);
-    Window window(1920, 1080, "OpenGL", camera);
-
-    GLuint VertexArrayID; // TODO: understand what this is
-    glGenVertexArrays(1, &VertexArrayID);
-    glBindVertexArray(VertexArrayID);
-
-    Shader shader = Shader("../../../assets/shader");
-    std::array<std::shared_ptr<Mesh>, 100> mesh;
-    for (int i = 0; i < 1000; i++) {
-		mesh[i] = std::make_shared<Mesh>("../../../assets/box.obj");
-	}
-
-    float speedMove = 0.01f;
-    std::vector<double> fpsList;
-    double averageFps=0;
-
-    while (window.shouldClose() == false && window.isKeyPressed(GLFW_KEY_ESCAPE) != GLFW_PRESS) {
-        window.clear();
-
-        for (int i = 0; i < 1000; i++) {
-            mesh[i]->draw();
-        }
-        window.update();
-
-        WindowMoveCamera(window, camera, speedMove);
-        WindowMouseMoveCamera(window, camera);
-
-        double fps = window.getFPS();
-        fpsList.push_back(fps);
-        window.setTitle("OpenGL FPS: " + std::to_string(fps));
-
-        window.render();
-    }
-    averageFps = std::accumulate(fpsList.begin(), fpsList.end(), 0.0) / fpsList.size();
-    std::cout << "Average FPS: " << averageFps << std::endl;
-
-    glDeleteVertexArrays(1, &VertexArrayID);
-    return 0;
+    std::string vert = path + (std::string)".vert";
+    std::string frag = path + (std::string)".frag";
+    _programID = LoadShaders(vert.c_str(), frag.c_str());
+	_matrixID = glGetUniformLocation(_programID, "MVP");
 }
 
-int main(int argc, char** argv)
+Shader::Shader(const std::string& path)
 {
-    try {
-		return main_(argc, argv);
-    }
-    catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-        return 1;
-	}
+    std::string vert = path + (std::string)".vert";
+    std::string frag = path + (std::string)".frag";
+    _programID = LoadShaders(vert.c_str(), frag.c_str());
+    _matrixID = glGetUniformLocation(_programID, "MVP");
 }
 
-void WindowMouseMoveCamera(Window& window, std::shared_ptr<Camera>& camera)
+Shader::~Shader()
 {
-    auto mousePos = window.getMousePosition();
-    glm::vec2 diff = mousePos - glm::vec2(1920 / 2, 1080 / 2);
-
-    if (diff.x != 0)
-        camera->RotateRight(diff.x * 0.1f);
-    if (diff.y != 0)
-        camera->RotateUp(diff.y * -0.1f);
-    window.setMousePosition(glm::vec2(1920 / 2, 1080 / 2));
-
-    if (window.isKeyPressed(GLFW_KEY_Q) == GLFW_PRESS)
-        camera->RotateLeft(0.5f);
-    if (window.isKeyPressed(GLFW_KEY_E) == GLFW_PRESS)
-        camera->RotateRight(0.5f);
+    glDeleteProgram(_programID);
 }
 
-void WindowMoveCamera(Window& window, std::shared_ptr<Camera>& camera, float& speed)
+void Shader::use() const
 {
-    if (window.isKeyPressed(GLFW_KEY_W) == GLFW_PRESS)
-        camera->MoveForward(speed);
-    if (window.isKeyPressed(GLFW_KEY_S) == GLFW_PRESS)
-        camera->MoveBackward(speed);
-    if (window.isKeyPressed(GLFW_KEY_A) == GLFW_PRESS)
-        camera->MoveLeft(speed);
-    if (window.isKeyPressed(GLFW_KEY_D) == GLFW_PRESS)
-        camera->MoveRight(speed);
-    if (window.isKeyPressed(GLFW_KEY_SPACE) == GLFW_PRESS)
-        camera->MoveUp(speed);
-    if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-        camera->MoveDown(speed);
+    glUseProgram(_programID);
+}
 
-    if (window.isKeyPressed(GLFW_KEY_LEFT) == GLFW_PRESS)
-        speed -= 0.001f;
-    if (window.isKeyPressed(GLFW_KEY_RIGHT) == GLFW_PRESS)
-        speed += 0.001f;
+void Shader::setMVP(glm::mat4 matrix) const
+{
+    glUniformMatrix4fv(_matrixID, 1, GL_FALSE, &matrix[0][0]);
 }

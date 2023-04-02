@@ -14,6 +14,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
+#include <Shader.hpp>
+#include <Window.hpp>
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -37,7 +40,7 @@ class Mesh {
 
     protected:
     private:
-
+        Shader shader = Shader("../../../assets/shader");
         GLuint _meshbuffer;
         GLuint _uvbuffer;
         GLuint _colorbuffer;
