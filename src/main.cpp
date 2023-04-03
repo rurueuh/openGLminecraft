@@ -14,11 +14,15 @@ int main_(int ac, char** av)
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-	const int nbMesh = 500;
-    std::array<std::shared_ptr<Mesh>, nbMesh> mesh;
-    for (int i = 0; i < nbMesh; i++) {
-		mesh[i] = std::make_shared<Mesh>("../../../assets/untitled.obj", "../../../assets/shader");
-		mesh[i]->setPosition(glm::vec3(rand() % 10 - 5, rand() % 10 - 5, rand() % 10 - 5));
+	const int PLATFORM_SIZE = 10;
+	std::vector<std::shared_ptr<Mesh>> mesh = {};
+
+	for (int x = 0; x < PLATFORM_SIZE; x++) {
+		for (int y = 0; y < PLATFORM_SIZE; y++) {
+			auto m = std::make_shared<Mesh>("../../../assets/untitled.obj", "../../../assets/shader", "../../../assets/dirt.png");
+			m->setPosition(glm::vec3(y, 0 , x));
+			mesh.push_back(m);
+		}
 	}
 
     float speedMove = 0.01f;
@@ -28,7 +32,7 @@ int main_(int ac, char** av)
     while (window.shouldClose() == false && window.isKeyPressed(GLFW_KEY_ESCAPE) != GLFW_PRESS) {
         window.clear();
 
-        for (int i = 0; i < nbMesh; i++) {
+        for (int i = 0; i < PLATFORM_SIZE * PLATFORM_SIZE; i++) {
             mesh[i]->draw();
         }
         window.update();

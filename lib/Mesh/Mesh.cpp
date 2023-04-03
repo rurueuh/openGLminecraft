@@ -7,10 +7,10 @@
 
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::string pathOBJ, std::string PathShader)
+Mesh::Mesh(std::string pathOBJ, std::string PathShader, std::string PathTexture)
 {
     shader = std::make_shared<Shader>(PathShader);
-    texture = std::make_shared<Texture>("../../../assets/test.bmp");
+    texture = std::make_shared<Texture>(PathTexture);
     loadObj(pathOBJ);
 
     shader->getTexture("myTextureSampler");

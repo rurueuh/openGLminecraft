@@ -29,7 +29,7 @@
 
 class Mesh {
     public:
-        Mesh(std::string pathOBJ, std::string pathShader);
+        Mesh(std::string pathOBJ, std::string PathShader, std::string PathTexture);
         ~Mesh();
 
         void draw() const;
