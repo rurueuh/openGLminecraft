@@ -14,7 +14,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
-#include "../Camera/Camera.hpp"
+#include <memory>
+#include <Camera.hpp>
 
 class Window {
     public:

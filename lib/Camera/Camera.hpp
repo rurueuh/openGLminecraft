@@ -19,7 +19,7 @@ class Camera {
     public:
         Camera(glm::vec3 position, glm::vec3 target, 
                 float fov,
-                float width, float height,
+                int width, int height,
                 float near, float far);
         ~Camera();
 

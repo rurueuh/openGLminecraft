@@ -41,6 +41,7 @@ file(GLOB_RECURSE helloworld_SRC
 include_directories("externalLib/glew-2.1.0/include")
 include_directories("externalLib/glfw-3.3.8.bin.WIN64/include")
 include_directories("externalLib/glm")
+include_directories("externalLib/stb")
 set(SFML_LIB_DIR "./SFML/lib")
 
 IF (WIN32)

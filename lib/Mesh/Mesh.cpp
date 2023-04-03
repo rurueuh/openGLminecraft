@@ -7,19 +7,19 @@
 
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::string pathOBJ)
+Mesh::Mesh(std::string pathOBJ, std::string PathShader, std::string PathTexture)
 {
+    shader = std::make_shared<Shader>(PathShader);
+    texture = std::make_shared<Texture>(PathTexture);
     loadObj(pathOBJ);
 
-    glGenBuffers(1, &_colorbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _colorbuffer);
-    glBufferData(GL_ARRAY_BUFFER, _buffer_color.size() * sizeof(GLfloat), _buffer_color.data(), GL_STATIC_DRAW);
+    shader->getTexture("myTextureSampler");
 }
 
 Mesh::~Mesh()
 {
     glDeleteBuffers(1, &_meshbuffer);
-    glDeleteBuffers(1, &_colorbuffer);
+    glDeleteBuffers(1, &_uvbuffer);
 }
 
 static bool _loadOBJ (const char * path, std::vector<glm::vec3> &out_vertices, std::vector<glm::vec2> &out_uvs,std::vector<glm::vec3> &out_normals)
@@ -33,7 +33,7 @@ static bool _loadOBJ (const char * path, std::vector<glm::vec3> &out_vertices, s
 
     std::ifstream file(path);
 	if( file.is_open() == false) {
-        throw std::exception("RuruEngine : can't load obj file");
+        throw std::runtime_error("RuruEngine : can't load obj file");
 	}
 
 	while (1) {
@@ -93,7 +93,7 @@ void Mesh::loadObj(const std::string path)
     std::vector<glm::vec3> normals;
 
     _loadOBJ(path.c_str(), vertices, uvs, normals);
-    this->generateColor(vertices.size());
+    //this->generateColor(vertices.size());
 
     for (int i = 0; i < vertices.size(); i++) {
         _buffer.push_back(vertices[i].x);
@@ -101,9 +101,18 @@ void Mesh::loadObj(const std::string path)
         _buffer.push_back(vertices[i].z);
     }
 
+    for (int i = 0; i < uvs.size(); i++) {
+		_bufferUV.push_back(uvs[i].x);
+		_bufferUV.push_back(uvs[i].y);
+	}
+
     glGenBuffers(1, &_meshbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);
-    glBufferData(GL_ARRAY_BUFFER, _buffer.size() * sizeof(GLfloat) + 3, _buffer.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, _buffer.size() * sizeof(GLfloat), _buffer.data(), GL_STATIC_DRAW);
+
+    glGenBuffers(1, &_uvbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _uvbuffer);
+    glBufferData(GL_ARRAY_BUFFER, _bufferUV.size() * sizeof(GLfloat), _bufferUV.data(), GL_STATIC_DRAW);
 }
 
 void Mesh::generateColor(size_t size)
@@ -117,24 +126,33 @@ void Mesh::generateColor(size_t size)
         _buffer_color.push_back(g);
         _buffer_color.push_back(b);
     }
+    glGenBuffers(1, &_colorbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _colorbuffer);
+    glBufferData(GL_ARRAY_BUFFER, _buffer_color.size() * sizeof(GLfloat), _buffer_color.data(), GL_STATIC_DRAW);
 }
 
 void Mesh::draw() const
 {
-    shader.use();
-    shader.setMVP(Window::getCamera()->getMVP());
+    shader->use();
+    shader->setMVP(Window::getCamera()->getMVP());
+    shader->setTexture(0);
 
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
+    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, _uvbuffer);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 
     glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(_buffer.size()));
     glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
     
-    glEnableVertexAttribArray(1);
+    /*glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, _colorbuffer);
-    glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+    glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, NULL);*/
+    
 }
 
 void Mesh::translate(glm::vec3 vec)
@@ -191,4 +209,10 @@ void Mesh::rotate(glm::vec3 vec)
     glGenBuffers(1, &_meshbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);
     glBufferData(GL_ARRAY_BUFFER, _buffer.size() * sizeof(GLfloat), _buffer.data(), GL_STATIC_DRAW);
+}
+
+void Mesh::setPosition(glm::vec3 vec)
+{
+    glm::vec3 diff = vec - _position;
+	translate(diff);
 }

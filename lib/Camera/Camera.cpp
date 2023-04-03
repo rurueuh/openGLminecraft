@@ -9,11 +9,11 @@
 
 Camera::Camera(glm::vec3 position, glm::vec3 target, 
     float fov,
-    float width, float height,
+    int width, int height,
     float near, float far
 )
 {
-    _projection = glm::perspective(fov, width / height, near, far);
+    _projection = glm::perspective(fov, static_cast<float>(width) / static_cast<float>(height), near, far);
     _cameraPos = position;
     _cameraTarget = target;
     _cameraUp = glm::vec3(0, 1, 0);

@@ -1,6 +1,6 @@
 #include "Shader.hpp"
 
-static GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path) {
+GLuint Shader::LoadShaders(const char* vertex_file_path, const char* fragment_file_path) {
 
     // Create the shaders
     GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -43,7 +43,7 @@ static GLuint LoadShaders(const char* vertex_file_path, const char* fragment_fil
     glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &Result);
     glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
     if (InfoLogLength > 0) {
-        std::vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
+        std::vector<char> VertexShaderErrorMessage(InfoLogLength);
         glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
         printf("%s\n", &VertexShaderErrorMessage[0]);
     }
@@ -58,7 +58,7 @@ static GLuint LoadShaders(const char* vertex_file_path, const char* fragment_fil
     glGetShaderiv(FragmentShaderID, GL_COMPILE_STATUS, &Result);
     glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
     if (InfoLogLength > 0) {
-        std::vector<char> FragmentShaderErrorMessage(InfoLogLength + 1);
+        std::vector<char> FragmentShaderErrorMessage(InfoLogLength);
         glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
         printf("%s\n", &FragmentShaderErrorMessage[0]);
     }
@@ -74,7 +74,7 @@ static GLuint LoadShaders(const char* vertex_file_path, const char* fragment_fil
     glGetProgramiv(ProgramID, GL_LINK_STATUS, &Result);
     glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &InfoLogLength);
     if (InfoLogLength > 0) {
-        std::vector<char> ProgramErrorMessage(InfoLogLength + 1);
+        std::vector<char> ProgramErrorMessage(InfoLogLength);
         glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
         printf("%s\n", &ProgramErrorMessage[0]);
     }
@@ -94,6 +94,7 @@ Shader::Shader(const char* path)
     std::string frag = path + (std::string)".frag";
     _programID = LoadShaders(vert.c_str(), frag.c_str());
 	_matrixID = glGetUniformLocation(_programID, "MVP");
+    this->getTexture("myTextureSampler");
 }
 
 Shader::Shader(const std::string& path)
@@ -102,11 +103,17 @@ Shader::Shader(const std::string& path)
     std::string frag = path + (std::string)".frag";
     _programID = LoadShaders(vert.c_str(), frag.c_str());
     _matrixID = glGetUniformLocation(_programID, "MVP");
+    this->getTexture("myTextureSampler");
 }
 
 Shader::~Shader()
 {
     glDeleteProgram(_programID);
+}
+
+void Shader::getTexture(const std::string& name)
+{
+    _textureID = glGetUniformLocation(_programID, name.c_str());
 }
 
 void Shader::use() const
@@ -117,4 +124,9 @@ void Shader::use() const
 void Shader::setMVP(glm::mat4 matrix) const
 {
     glUniformMatrix4fv(_matrixID, 1, GL_FALSE, &matrix[0][0]);
+}
+
+void Shader::setTexture(int chan)
+{
+    glUniform1i(_textureID, chan);
 }

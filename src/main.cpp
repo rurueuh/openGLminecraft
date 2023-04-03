@@ -1,97 +1,8 @@
 #include "main.h"
 
-
-static GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path) {
-
-    // Create the shaders
-    GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-    GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-
-    // Read the Vertex Shader code from the file
-    std::string VertexShaderCode;
-    std::ifstream VertexShaderStream(vertex_file_path, std::ios::in);
-    if (VertexShaderStream.is_open()) {
-        std::stringstream sstr;
-        sstr << VertexShaderStream.rdbuf();
-        VertexShaderCode = sstr.str();
-        VertexShaderStream.close();
-    }
-    else {
-        std::string error = "error on loading Shader : " + (std::string)vertex_file_path + " file not found";
-        throw std::runtime_error(error.c_str());
-    }
-
-    // Read the Fragment Shader code from the file
-    std::string FragmentShaderCode;
-    std::ifstream FragmentShaderStream(fragment_file_path, std::ios::in);
-    if (FragmentShaderStream.is_open()) {
-        std::stringstream sstr;
-        sstr << FragmentShaderStream.rdbuf();
-        FragmentShaderCode = sstr.str();
-        FragmentShaderStream.close();
-    }
-
-    GLint Result = GL_FALSE;
-    int InfoLogLength;
-
-    // Compile Vertex Shader
-    printf("Compiling shader : %s\n", vertex_file_path);
-    char const* VertexSourcePointer = VertexShaderCode.c_str();
-    glShaderSource(VertexShaderID, 1, &VertexSourcePointer, NULL);
-    glCompileShader(VertexShaderID);
-
-    // Check Vertex Shader
-    glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &Result);
-    glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-    if (InfoLogLength > 0) {
-        std::vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
-        glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
-        printf("%s\n", &VertexShaderErrorMessage[0]);
-    }
-
-    // Compile Fragment Shader
-    printf("Compiling shader : %s\n", fragment_file_path);
-    char const* FragmentSourcePointer = FragmentShaderCode.c_str();
-    glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer, NULL);
-    glCompileShader(FragmentShaderID);
-
-    // Check Fragment Shader
-    glGetShaderiv(FragmentShaderID, GL_COMPILE_STATUS, &Result);
-    glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-    if (InfoLogLength > 0) {
-        std::vector<char> FragmentShaderErrorMessage(InfoLogLength + 1);
-        glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
-        printf("%s\n", &FragmentShaderErrorMessage[0]);
-    }
-
-    // Link the program
-    printf("Linking program\n");
-    GLuint ProgramID = glCreateProgram();
-    glAttachShader(ProgramID, VertexShaderID);
-    glAttachShader(ProgramID, FragmentShaderID);
-    glLinkProgram(ProgramID);
-
-    // Check the program
-    glGetProgramiv(ProgramID, GL_LINK_STATUS, &Result);
-    glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-    if (InfoLogLength > 0) {
-        std::vector<char> ProgramErrorMessage(InfoLogLength + 1);
-        glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
-        printf("%s\n", &ProgramErrorMessage[0]);
-    }
-
-    glDetachShader(ProgramID, VertexShaderID);
-    glDetachShader(ProgramID, FragmentShaderID);
-
-    glDeleteShader(VertexShaderID);
-    glDeleteShader(FragmentShaderID);
-
-    return ProgramID;
-}
-
 int main_(int ac, char** av)
 {
-    srand(static_cast<time_t>(time(NULL)));
+    srand(static_cast<unsigned int>(time(NULL)));
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(
         glm::vec3(5.0f, 5.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f, 1920, 1080, 0.1f, 10000.0f
     );
@@ -103,10 +14,15 @@ int main_(int ac, char** av)
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-    Shader shader = Shader("../../../assets/shader");
-    std::array<std::shared_ptr<Mesh>, 100> mesh;
-    for (int i = 0; i < 1000; i++) {
-		mesh[i] = std::make_shared<Mesh>("../../../assets/box.obj");
+	const int PLATFORM_SIZE = 10;
+	std::vector<std::shared_ptr<Mesh>> mesh = {};
+
+	for (int x = 0; x < PLATFORM_SIZE; x++) {
+		for (int y = 0; y < PLATFORM_SIZE; y++) {
+			auto m = std::make_shared<Mesh>("../../../assets/untitled.obj", "../../../assets/shader", "../../../assets/dirt.png");
+			m->setPosition(glm::vec3(y, 0 , x));
+			mesh.push_back(m);
+		}
 	}
 
     float speedMove = 0.01f;
@@ -116,7 +32,7 @@ int main_(int ac, char** av)
     while (window.shouldClose() == false && window.isKeyPressed(GLFW_KEY_ESCAPE) != GLFW_PRESS) {
         window.clear();
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < PLATFORM_SIZE * PLATFORM_SIZE; i++) {
             mesh[i]->draw();
         }
         window.update();
@@ -139,13 +55,174 @@ int main_(int ac, char** av)
 
 int main(int argc, char** argv)
 {
-    try {
+	try {
 		return main_(argc, argv);
-    }
-    catch (std::exception& e) {
-		std::cout << e.what() << std::endl;
-        return 1;
 	}
+	catch (std::exception& e) {
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
+	/* {
+		if (!glfwInit())
+		{
+			fprintf(stderr, "Failed to initialize GLFW\n");
+			return -1;
+		}
+		glfwWindowHint(GLFW_SAMPLES, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		GLFWwindow* window = glfwCreateWindow(1024, 768, "Tutorial 05 - Textured Cube", NULL, NULL);
+		if (window == NULL) {
+			fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
+			glfwTerminate();
+			return -1;
+		}
+		glfwMakeContextCurrent(window);
+		glewExperimental = true; // Needed for core profile
+		if (glewInit() != GLEW_OK) {
+			fprintf(stderr, "Failed to initialize GLEW\n");
+			return -1;
+		}
+		glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+		glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		GLuint VertexArrayID;
+		glGenVertexArrays(1, &VertexArrayID);
+		glBindVertexArray(VertexArrayID);
+		GLuint programID = Shader::LoadShaders("../../../assets/shader.vert", "../../../assets/shader.frag");
+		GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+		glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+		glm::mat4 View = glm::lookAt(
+			glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
+			glm::vec3(0, 0, 0), // and looks at the origin
+			glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+		);
+		glm::mat4 Model = glm::mat4(1.0f);
+		glm::mat4 MVP = Projection * View * Model; // Remember, matrix multiplication is the other way around
+		static const GLfloat g_vertex_buffer_data[] = {
+			-1.0f,-1.0f,-1.0f,
+			-1.0f,-1.0f, 1.0f,
+			-1.0f, 1.0f, 1.0f,
+			 1.0f, 1.0f,-1.0f,
+			-1.0f,-1.0f,-1.0f,
+			-1.0f, 1.0f,-1.0f,
+			 1.0f,-1.0f, 1.0f,
+			-1.0f,-1.0f,-1.0f,
+			 1.0f,-1.0f,-1.0f,
+			 1.0f, 1.0f,-1.0f,
+			 1.0f,-1.0f,-1.0f,
+			-1.0f,-1.0f,-1.0f,
+			-1.0f,-1.0f,-1.0f,
+			-1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f,-1.0f,
+			 1.0f,-1.0f, 1.0f,
+			-1.0f,-1.0f, 1.0f,
+			-1.0f,-1.0f,-1.0f,
+			-1.0f, 1.0f, 1.0f,
+			-1.0f,-1.0f, 1.0f,
+			 1.0f,-1.0f, 1.0f,
+			 1.0f, 1.0f, 1.0f,
+			 1.0f,-1.0f,-1.0f,
+			 1.0f, 1.0f,-1.0f,
+			 1.0f,-1.0f,-1.0f,
+			 1.0f, 1.0f, 1.0f,
+			 1.0f,-1.0f, 1.0f,
+			 1.0f, 1.0f, 1.0f,
+			 1.0f, 1.0f,-1.0f,
+			-1.0f, 1.0f,-1.0f,
+			 1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f,-1.0f,
+			-1.0f, 1.0f, 1.0f,
+			 1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f, 1.0f,
+			 1.0f,-1.0f, 1.0f
+		};
+		static const GLfloat g_uv_buffer_data[] = {
+			0.000059f, 1.0f - 0.000004f,
+			0.000103f, 1.0f - 0.336048f,
+			0.335973f, 1.0f - 0.335903f,
+			1.000023f, 1.0f - 0.000013f,
+			0.667979f, 1.0f - 0.335851f,
+			0.999958f, 1.0f - 0.336064f,
+			0.667979f, 1.0f - 0.335851f,
+			0.336024f, 1.0f - 0.671877f,
+			0.667969f, 1.0f - 0.671889f,
+			1.000023f, 1.0f - 0.000013f,
+			0.668104f, 1.0f - 0.000013f,
+			0.667979f, 1.0f - 0.335851f,
+			0.000059f, 1.0f - 0.000004f,
+			0.335973f, 1.0f - 0.335903f,
+			0.336098f, 1.0f - 0.000071f,
+			0.667979f, 1.0f - 0.335851f,
+			0.335973f, 1.0f - 0.335903f,
+			0.336024f, 1.0f - 0.671877f,
+			1.000004f, 1.0f - 0.671847f,
+			0.999958f, 1.0f - 0.336064f,
+			0.667979f, 1.0f - 0.335851f,
+			0.668104f, 1.0f - 0.000013f,
+			0.335973f, 1.0f - 0.335903f,
+			0.667979f, 1.0f - 0.335851f,
+			0.335973f, 1.0f - 0.335903f,
+			0.668104f, 1.0f - 0.000013f,
+			0.336098f, 1.0f - 0.000071f,
+			0.000103f, 1.0f - 0.336048f,
+			0.000004f, 1.0f - 0.671870f,
+			0.336024f, 1.0f - 0.671877f,
+			0.000103f, 1.0f - 0.336048f,
+			0.336024f, 1.0f - 0.671877f,
+			0.335973f, 1.0f - 0.335903f,
+			0.667969f, 1.0f - 0.671889f,
+			1.000004f, 1.0f - 0.671847f,
+			0.667979f, 1.0f - 0.335851f
+		};
+
+		GLuint vertexbuffer;
+		glGenBuffers(1, &vertexbuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
+		GLuint uvbuffer;
+		glGenBuffers(1, &uvbuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(g_uv_buffer_data), g_uv_buffer_data, GL_STATIC_DRAW);
+
+		do {
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glUseProgram(programID);
+
+			glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+
+			glActiveTexture(GL_TEXTURE0);
+
+			glEnableVertexAttribArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+			glEnableVertexAttribArray(1);
+			glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+			glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+
+			glDisableVertexAttribArray(0);
+			glDisableVertexAttribArray(1);
+
+			glfwSwapBuffers(window);
+			glfwPollEvents();
+
+		} while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
+			glfwWindowShouldClose(window) == 0);
+		glDeleteBuffers(1, &vertexbuffer);
+		glDeleteBuffers(1, &uvbuffer);
+		glDeleteProgram(programID);
+		glDeleteTextures(1, &Texture);
+		glDeleteVertexArrays(1, &VertexArrayID);
+		glfwTerminate();
+	}*/
+	return 0;
 }
 
 void WindowMouseMoveCamera(Window& window, std::shared_ptr<Camera>& camera)
@@ -175,8 +252,8 @@ void WindowMoveCamera(Window& window, std::shared_ptr<Camera>& camera, float& sp
         camera->MoveLeft(speed);
     if (window.isKeyPressed(GLFW_KEY_D) == GLFW_PRESS)
         camera->MoveRight(speed);
-    if (window.isKeyPressed(GLFW_KEY_SPACE) == GLFW_PRESS)
-        camera->MoveUp(speed);
+	if (window.isKeyPressed(GLFW_KEY_SPACE) == GLFW_PRESS)
+		camera->MoveUp(speed);
     if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
         camera->MoveDown(speed);
 

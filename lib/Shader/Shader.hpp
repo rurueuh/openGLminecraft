@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** opengl
 ** File description:
-** Mesh
+** Shader
 */
 
 #pragma once
@@ -32,10 +32,15 @@ class Shader {
 		Shader(const std::string& path);
 		~Shader();
 
+		void getTexture(const std::string &name);
 		void use() const;
 		void setMVP(glm::mat4 matrix) const;
+		void setTexture(int chan);
+
+		static GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
 	protected:
 	private:
-		GLuint _programID;
-		GLuint _matrixID;
+		GLuint _programID = -1;
+		GLuint _matrixID = -1;
+		GLuint _textureID = -1;
 };
