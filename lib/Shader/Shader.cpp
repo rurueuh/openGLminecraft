@@ -1,4 +1,7 @@
 #include "Shader.hpp"
+constexpr auto DEBUG_SHADER = true;
+
+std::map<std::string, GLuint> Shader::shadersInteligi = {};
 
 GLuint Shader::LoadShaders(const char* vertex_file_path, const char* fragment_file_path) {
 
@@ -88,20 +91,37 @@ GLuint Shader::LoadShaders(const char* vertex_file_path, const char* fragment_fi
     return ProgramID;
 }
 
+GLuint Shader::inteligiLoad(const std::string& path)
+{
+    return inteligiLoad(path.c_str());
+}
+
+GLuint Shader::inteligiLoad(const char* path)
+{
+    if (shadersInteligi.find(path) != shadersInteligi.end()) {
+        if (DEBUG_SHADER)
+            std::cout << "Shader already loaded: " << path << std::endl;
+        return shadersInteligi[path];
+    } else {
+        std::string vert = path + (std::string)".vert";
+        std::string frag = path + (std::string)".frag";
+		shadersInteligi[path] = LoadShaders(vert.c_str(), frag.c_str());
+        if (DEBUG_SHADER)
+            std::cout << "Shader loaded: " << path << std::endl;
+		return shadersInteligi[path];
+	}
+}
+
 Shader::Shader(const char* path)
 {
-    std::string vert = path + (std::string)".vert";
-    std::string frag = path + (std::string)".frag";
-    _programID = LoadShaders(vert.c_str(), frag.c_str());
+    _programID = inteligiLoad(path);
 	_matrixID = glGetUniformLocation(_programID, "MVP");
     this->getTexture("myTextureSampler");
 }
 
 Shader::Shader(const std::string& path)
 {
-    std::string vert = path + (std::string)".vert";
-    std::string frag = path + (std::string)".frag";
-    _programID = LoadShaders(vert.c_str(), frag.c_str());
+    _programID = inteligiLoad(path);
     _matrixID = glGetUniformLocation(_programID, "MVP");
     this->getTexture("myTextureSampler");
 }

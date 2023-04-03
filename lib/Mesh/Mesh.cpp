@@ -6,12 +6,24 @@
 */
 
 #include "Mesh.hpp"
+constexpr auto DEBUG_OBJ = true;
+
+std::map<std::string, std::tuple<std::vector<GLfloat>, std::vector<GLfloat>>> Mesh::_inteliLoaderObj = {};
 
 Mesh::Mesh(std::string pathOBJ, std::string PathShader, std::string PathTexture)
 {
     shader = std::make_shared<Shader>(PathShader);
     texture = std::make_shared<Texture>(PathTexture);
-    loadObj(pathOBJ);
+    auto load = inteliLoaderObj(pathOBJ);
+    _buffer = std::get<0>(load);
+    _bufferUV = std::get<1>(load);
+    glGenBuffers(1, &_meshbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);
+    glBufferData(GL_ARRAY_BUFFER, _buffer.size() * sizeof(GLfloat), _buffer.data(), GL_STATIC_DRAW);
+
+    glGenBuffers(1, &_uvbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _uvbuffer);
+    glBufferData(GL_ARRAY_BUFFER, _bufferUV.size() * sizeof(GLfloat), _bufferUV.data(), GL_STATIC_DRAW);
 
     shader->getTexture("myTextureSampler");
 }
@@ -86,33 +98,28 @@ static bool _loadOBJ (const char * path, std::vector<glm::vec3> &out_vertices, s
 	return true;
 }
 
-void Mesh::loadObj(const std::string path)
+std::tuple<std::vector<GLfloat>, std::vector<GLfloat>> Mesh::loadObj(const std::string path)
 {
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec2> uvs;
     std::vector<glm::vec3> normals;
 
+    std::vector<GLfloat> buffer, bufferUV = {};
+
     _loadOBJ(path.c_str(), vertices, uvs, normals);
-    //this->generateColor(vertices.size());
 
     for (int i = 0; i < vertices.size(); i++) {
-        _buffer.push_back(vertices[i].x);
-        _buffer.push_back(vertices[i].y);
-        _buffer.push_back(vertices[i].z);
+        buffer.push_back(vertices[i].x);
+        buffer.push_back(vertices[i].y);
+        buffer.push_back(vertices[i].z);
     }
 
     for (int i = 0; i < uvs.size(); i++) {
-		_bufferUV.push_back(uvs[i].x);
-		_bufferUV.push_back(uvs[i].y);
+        bufferUV.push_back(uvs[i].x);
+        bufferUV.push_back(uvs[i].y);
 	}
 
-    glGenBuffers(1, &_meshbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);
-    glBufferData(GL_ARRAY_BUFFER, _buffer.size() * sizeof(GLfloat), _buffer.data(), GL_STATIC_DRAW);
-
-    glGenBuffers(1, &_uvbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _uvbuffer);
-    glBufferData(GL_ARRAY_BUFFER, _bufferUV.size() * sizeof(GLfloat), _bufferUV.data(), GL_STATIC_DRAW);
+    return std::make_tuple(buffer, bufferUV);
 }
 
 void Mesh::generateColor(size_t size)
@@ -148,11 +155,6 @@ void Mesh::draw() const
     glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(_buffer.size()));
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
-    
-    /*glEnableVertexAttribArray(1);
-    glBindBuffer(GL_ARRAY_BUFFER, _colorbuffer);
-    glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, NULL);*/
-    
 }
 
 void Mesh::translate(glm::vec3 vec)
@@ -215,4 +217,19 @@ void Mesh::setPosition(glm::vec3 vec)
 {
     glm::vec3 diff = vec - _position;
 	translate(diff);
+}
+
+std::tuple<std::vector<GLfloat>, std::vector<GLfloat>> Mesh::inteliLoaderObj(std::string path)
+{
+    if (_inteliLoaderObj.find(path) != _inteliLoaderObj.end()) {
+        if (DEBUG_OBJ)
+            std::cout << "OBJ: " << path << " already loaded" << std::endl;
+        return _inteliLoaderObj[path];
+    }
+    else {
+        _inteliLoaderObj[path] = loadObj(path);
+        if (DEBUG_OBJ)
+            std::cout << "OBJ: " << path << " loaded" << std::endl;
+        return _inteliLoaderObj[path];
+    }
 }

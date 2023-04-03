@@ -33,7 +33,7 @@ class Mesh {
         ~Mesh();
 
         void draw() const;
-        void loadObj(const std::string path);
+        static std::tuple<std::vector<GLfloat>, std::vector<GLfloat>> loadObj(const std::string path);
 
         void translate(glm::vec3 vec);
         void rotate(glm::vec3 vec);
@@ -41,8 +41,12 @@ class Mesh {
 
         glm::vec3 getPosition() const { return _position; };
 
+        static std::tuple<std::vector<GLfloat>, std::vector<GLfloat>> inteliLoaderObj(std::string name);
+
     protected:
     private:
+        static std::map<std::string, std::tuple<std::vector<GLfloat>, std::vector<GLfloat>>> _inteliLoaderObj;
+
         std::shared_ptr<Shader> shader = nullptr;
         std::shared_ptr<Texture> texture = nullptr;
         GLuint _Texture = -1;

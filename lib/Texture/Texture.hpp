@@ -23,6 +23,7 @@
 #include <sstream>
 #include <algorithm>
 #include <array>
+#include <map>
 
 class Texture {
 
@@ -33,9 +34,11 @@ class Texture {
 		void unbind() const;
 		GLuint getID() const { return _texture; };
 		static GLuint load(const char * imagepath);
+
+		static GLuint inteligiLoad(const std::string& path);
 	protected:
 	private:
-
+		static std::map<std::string, GLuint> _texturesInteligi;
 		GLuint _texture;
 		int _width;
 		int _height;

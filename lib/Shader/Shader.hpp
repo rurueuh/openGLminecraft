@@ -21,10 +21,7 @@
 #include <sstream>
 #include <algorithm>
 #include <array>
-
-/*
-* important de cherche une optimisation en cas de doublons de shader genre si le fichier est charger de le garde load et je dupplique pas
-**/
+#include <map>
 
 class Shader {
 	public:
@@ -38,8 +35,11 @@ class Shader {
 		void setTexture(int chan);
 
 		static GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
+		static GLuint inteligiLoad(const std::string &path);
+		static GLuint inteligiLoad(const char *path);
 	protected:
 	private:
+		static std::map<std::string, GLuint> shadersInteligi;
 		GLuint _programID = -1;
 		GLuint _matrixID = -1;
 		GLuint _textureID = -1;

@@ -14,12 +14,12 @@ int main_(int ac, char** av)
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-	const int PLATFORM_SIZE = 10;
+	const int PLATFORM_SIZE = 150;
 	std::vector<std::shared_ptr<Mesh>> mesh = {};
 
 	for (int x = 0; x < PLATFORM_SIZE; x++) {
 		for (int y = 0; y < PLATFORM_SIZE; y++) {
-			auto m = std::make_shared<Mesh>("../../../assets/untitled.obj", "../../../assets/shader", "../../../assets/dirt.png");
+			auto m = std::make_shared<Mesh>("../assets/untitled.obj", "../assets/shader", "../assets/dirt.png");
 			m->setPosition(glm::vec3(y, 0 , x));
 			mesh.push_back(m);
 		}
@@ -37,8 +37,10 @@ int main_(int ac, char** av)
         }
         window.update();
 
-        WindowMoveCamera(window, camera, speedMove);
-        WindowMouseMoveCamera(window, camera);
+		if (window.hasFocus()) {
+			WindowMoveCamera(window, camera, speedMove);
+			WindowMouseMoveCamera(window, camera);
+		}
 
         double fps = window.getFPS();
         fpsList.push_back(fps);

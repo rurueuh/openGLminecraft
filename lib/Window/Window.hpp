@@ -34,6 +34,8 @@ class Window {
         bool isKeyPressed(int key) const { return glfwGetKey(_window.get(), key) == GLFW_PRESS; };
         bool shouldClose() const { return glfwWindowShouldClose(_window.get()); };
 
+        bool hasFocus() const { return glfwGetWindowAttrib(_window.get(), GLFW_FOCUSED); };
+
         // Setters
         void setMousePosition(const glm::vec2 &pos) const { glfwSetCursorPos(_window.get(), pos.x, pos.y); };
         void setTitle(const std::string& name);

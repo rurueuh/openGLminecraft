@@ -1,9 +1,12 @@
 #include "Texture.hpp"
+constexpr auto DEBUG_TEXTURE = true;
+
+std::map<std::string, GLuint> Texture::_texturesInteligi = {};
 
 Texture::Texture(const std::string& path)
 	: _texture(0), _width(0), _height(0), _nrChannels(0), _data(nullptr)
 {
-    load(path.c_str());
+    inteligiLoad(path);
 }
 
 Texture::~Texture()
@@ -42,4 +45,20 @@ GLuint Texture::load(const char* imagepath) {
     }
     stbi_image_free(data);
 	return texture;
+}
+
+GLuint Texture::inteligiLoad(const std::string& path)
+{
+    if (_texturesInteligi.find(path) != _texturesInteligi.end()) {
+        if (DEBUG_TEXTURE) {
+			std::cout << "Texture already loaded: " << path << std::endl;
+        }
+		return _texturesInteligi[path];
+    } else {
+        _texturesInteligi[path] = load(path.c_str());
+        if (DEBUG_TEXTURE) {
+            std::cout << "Texture loaded: " << path << std::endl;
+        }
+		return _texturesInteligi[path];
+	}
 }

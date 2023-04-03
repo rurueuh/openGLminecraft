@@ -41,7 +41,7 @@ void Window::initglew()
 std::shared_ptr<GLFWwindow> Window::initWindow()
 {
     initglfw();
-    glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
+    glfwWindowHint(GLFW_SAMPLES, 1); // 4x antialiasing
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // We want OpenGL 3.3
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); // We force OpenGL 3.3
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
@@ -60,6 +60,7 @@ std::shared_ptr<GLFWwindow> Window::initWindow()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
     return window;
 }
 
