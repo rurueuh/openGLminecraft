@@ -57,14 +57,18 @@ add_executable(game ${helloworld_SRC})
 
 target_link_libraries(game myOpengl)
 
-target_link_libraries(game 
-    myOpengl 
-    ${SFML_LIBRARIES} 
-    glfw3
-    glew32
-    opengl32 
-    glu32 
-)
+if (WIN32)
+    target_link_libraries(game 
+        myOpengl 
+        ${SFML_LIBRARIES} 
+        glfw3
+        glew32
+        opengl32 
+        glu32 
+    )
+else ()
+    target_link_libraries(game glfw GL GLEW GLU glut)
+endif ()
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
