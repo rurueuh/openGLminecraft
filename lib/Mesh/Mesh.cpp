@@ -26,6 +26,10 @@ Mesh::Mesh(std::string pathOBJ, std::string PathShader, std::string PathTexture)
     glBufferData(GL_ARRAY_BUFFER, _bufferUV.size() * sizeof(GLfloat), _bufferUV.data(), GL_STATIC_DRAW);
 
     shader->getTexture("myTextureSampler");
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _uvbuffer);
 }
 
 Mesh::~Mesh()
@@ -144,17 +148,13 @@ void Mesh::draw() const
     //shader->setMVP(Window::getCamera()->getMVP());
     //shader->setTexture(0);*/
 
-    glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
-    glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, _uvbuffer);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 
     glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(_buffer.size()));
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
 }
 
 void Mesh::translate(glm::vec3 vec)
