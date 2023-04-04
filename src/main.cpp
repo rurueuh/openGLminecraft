@@ -1,10 +1,11 @@
 #include "main.h"
+#include "./Renderer/Renderer.hpp"
 
 int main_(int ac, char** av)
 {
     srand(static_cast<unsigned int>(time(NULL)));
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(
-        glm::vec3(5.0f, 5.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f, 1920, 1080, 0.1f, 10000.0f
+        glm::vec3(5.0f, 5.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f, 1920, 1080, 0.1f, 160.0f
     );
     camera->RotateLeft(40.0f);
     camera->RotateDown(40.0f);
@@ -14,18 +15,23 @@ int main_(int ac, char** av)
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-	const int PLATFORM_SIZE = 150;
-	std::vector<std::shared_ptr<Mesh>> mesh = {};
 	const std::string prefixPath = "../../../assets/";
 	std::shared_ptr<Shader> sh = std::make_shared<Shader>(prefixPath + "shader");
+	const int PLATFORM_SIZE = 150;
+	std::shared_ptr<Mesh> dirt = std::make_shared<Mesh>(prefixPath + "untitled.obj", prefixPath + "shader", prefixPath + "dirt.png");
+	std::vector<std::shared_ptr<Mesh>> mesh = {};
 
 	for (int x = 0; x < PLATFORM_SIZE; x++) {
 		for (int y = 0; y < PLATFORM_SIZE; y++) {
-			auto m = std::make_shared<Mesh>(prefixPath + "untitled.obj", prefixPath + "shader", prefixPath + "dirt.png");
-			m->setPosition(glm::vec3(y, 0 , x));
-			mesh.push_back(m);
+			for (int z = 0; z < 25; z++) {
+				auto m = std::make_shared<Mesh>(*dirt);
+				m->setPosition(glm::vec3(y, z, x));
+				mesh.push_back(m);
+			}
 		}
 	}
+
+	Renderer renderer(mesh);
 
     float speedMove = 0.01f;
     std::vector<double> fpsList;
@@ -38,9 +44,7 @@ int main_(int ac, char** av)
 		sh->setMVP(Window::getCamera()->getMVP());
 		sh->setTexture(0);
 
-        for (int i = 0; i < PLATFORM_SIZE * PLATFORM_SIZE; i++) {
-            mesh[i]->draw();
-        }
+        renderer.draw();
         window.update();
 
 		if (window.hasFocus()) {

@@ -12,8 +12,9 @@ std::map<std::string, std::tuple<std::vector<GLfloat>, std::vector<GLfloat>>> Me
 
 Mesh::Mesh(std::string pathOBJ, std::string PathShader, std::string PathTexture)
 {
-    shader = std::make_shared<Shader>(PathShader);
-    texture = std::make_shared<Texture>(PathTexture);
+    //shader = std::make_shared<Shader>(PathShader);
+    //shader->getTexture("myTextureSampler");
+    _texture = std::make_shared<Texture>(PathTexture);
     auto load = inteliLoaderObj(pathOBJ);
     _buffer = std::get<0>(load);
     _bufferUV = std::get<1>(load);
@@ -25,11 +26,28 @@ Mesh::Mesh(std::string pathOBJ, std::string PathShader, std::string PathTexture)
     glBindBuffer(GL_ARRAY_BUFFER, _uvbuffer);
     glBufferData(GL_ARRAY_BUFFER, _bufferUV.size() * sizeof(GLfloat), _bufferUV.data(), GL_STATIC_DRAW);
 
-    shader->getTexture("myTextureSampler");
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _uvbuffer);
+}
+
+Mesh::Mesh(const Mesh& other)
+{
+
+    _buffer = other._buffer;
+	_bufferUV = other._bufferUV;
+	glGenBuffers(1, &_meshbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);
+	glBufferData(GL_ARRAY_BUFFER, _buffer.size() * sizeof(GLfloat), _buffer.data(), GL_STATIC_DRAW);
+	glGenBuffers(1, &_uvbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, _uvbuffer);
+	glBufferData(GL_ARRAY_BUFFER, _bufferUV.size() * sizeof(GLfloat), _bufferUV.data(), GL_STATIC_DRAW);
+	//shader->getTexture("myTextureSampler");
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, _uvbuffer);
 }
 
 Mesh::~Mesh()
