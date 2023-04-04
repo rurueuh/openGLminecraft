@@ -1,5 +1,5 @@
 #include "Shader.hpp"
-constexpr auto DEBUG_SHADER = true;
+constexpr auto DEBUG_SHADER = false;
 
 std::map<std::string, GLuint> Shader::shadersInteligi = {};
 

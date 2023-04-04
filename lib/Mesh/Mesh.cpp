@@ -6,7 +6,7 @@
 */
 
 #include "Mesh.hpp"
-constexpr auto DEBUG_OBJ = true;
+constexpr auto DEBUG_OBJ = false;
 
 std::map<std::string, std::tuple<std::vector<GLfloat>, std::vector<GLfloat>>> Mesh::_inteliLoaderObj = {};
 
@@ -140,9 +140,9 @@ void Mesh::generateColor(size_t size)
 
 void Mesh::draw() const
 {
-    shader->use();
-    shader->setMVP(Window::getCamera()->getMVP());
-    shader->setTexture(0);
+    //shader->/*use();
+    //shader->setMVP(Window::getCamera()->getMVP());
+    //shader->setTexture(0);*/
 
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, _meshbuffer);

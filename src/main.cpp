@@ -16,10 +16,12 @@ int main_(int ac, char** av)
 
 	const int PLATFORM_SIZE = 150;
 	std::vector<std::shared_ptr<Mesh>> mesh = {};
+	const std::string prefixPath = "../../../assets/";
+	std::shared_ptr<Shader> sh = std::make_shared<Shader>(prefixPath + "shader");
 
 	for (int x = 0; x < PLATFORM_SIZE; x++) {
 		for (int y = 0; y < PLATFORM_SIZE; y++) {
-			auto m = std::make_shared<Mesh>("../assets/untitled.obj", "../assets/shader", "../assets/dirt.png");
+			auto m = std::make_shared<Mesh>(prefixPath + "untitled.obj", prefixPath + "shader", prefixPath + "dirt.png");
 			m->setPosition(glm::vec3(y, 0 , x));
 			mesh.push_back(m);
 		}
@@ -31,6 +33,10 @@ int main_(int ac, char** av)
 
     while (window.shouldClose() == false && window.isKeyPressed(GLFW_KEY_ESCAPE) != GLFW_PRESS) {
         window.clear();
+
+		sh->use();
+		sh->setMVP(Window::getCamera()->getMVP());
+		sh->setTexture(0);
 
         for (int i = 0; i < PLATFORM_SIZE * PLATFORM_SIZE; i++) {
             mesh[i]->draw();

@@ -1,5 +1,5 @@
 #include "Texture.hpp"
-constexpr auto DEBUG_TEXTURE = true;
+constexpr auto DEBUG_TEXTURE = false;
 
 std::map<std::string, GLuint> Texture::_texturesInteligi = {};
 
