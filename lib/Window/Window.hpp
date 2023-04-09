@@ -31,7 +31,7 @@ class Window {
             return glm::vec2(xpos, ypos);
         };
         double getFPS(); // double call = bug
-        bool isKeyPressed(int key) const { return glfwGetKey(_window.get(), key) == GLFW_PRESS; };
+        int isKeyPressed(int key) const { return glfwGetKey(_window.get(), key); };
         bool shouldClose() const { return glfwWindowShouldClose(_window.get()); };
 
         bool hasFocus() const { return glfwGetWindowAttrib(_window.get(), GLFW_FOCUSED); };

@@ -23,7 +23,11 @@
 #include <Shader.hpp>
 #include "Window.hpp"
 #include "Mesh.hpp"
+#include "Cube/Cube.h"
 
-void WindowMoveCamera(Window& window, std::shared_ptr<Camera>& camera, float& speed);
-
+void WindowMoveCamera(Window& window, std::shared_ptr<Camera>& camera, const float& speed);
 void WindowMouseMoveCamera(Window& window, std::shared_ptr<Camera>& camera);
+
+void MoveCube(Window& window, bool& ispressed, Cube& cube, Cube& cube2);
+
+void drawCube(std::vector<GLfloat>& vertex, Cube& cube, std::vector<GLfloat>& vertex2, Cube& cube2, const GLuint& vbo);
