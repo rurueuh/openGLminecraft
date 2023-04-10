@@ -1,12 +1,12 @@
 #include "Texture.hpp"
 constexpr auto DEBUG_TEXTURE = false;
 
-std::map<std::string, GLuint> Texture::_texturesInteligi = {};
+std::map<std::string, std::tuple<GLuint, int, int, int>> Texture::_texturesInteligi = {};
 
 Texture::Texture(const std::string& path)
 	: _texture(0), _width(0), _height(0), _nrChannels(0), _data(nullptr)
 {
-    inteligiLoad(path);
+    std::tie(_texture, _width, _height, _nrChannels) = inteligiLoad(path);
 }
 
 Texture::~Texture()
@@ -24,7 +24,7 @@ void Texture::unbind() const
 {
 }
 
-GLuint Texture::load(const char* imagepath) {
+std::tuple<GLuint, int, int, int> Texture::load(const char* imagepath) {
 
     unsigned int texture;
     glGenTextures(1, &texture);
@@ -44,10 +44,10 @@ GLuint Texture::load(const char* imagepath) {
         std::runtime_error("Failed to load texture");
     }
     stbi_image_free(data);
-	return texture;
+	return std::make_tuple(texture, width, height, nrChannels);
 }
 
-GLuint Texture::inteligiLoad(const std::string& path)
+std::tuple<GLuint, int, int, int> Texture::inteligiLoad(const std::string& path)
 {
     if (_texturesInteligi.find(path) != _texturesInteligi.end()) {
         if (DEBUG_TEXTURE) {

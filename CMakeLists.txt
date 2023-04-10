@@ -29,13 +29,13 @@ file(GLOB_RECURSE helloworld_SRC
     "src/*.hpp"
 )
 
-# foreach (file ${helloworld_SRC})
-#     set(MYFILE_DIR)
-#     if (file MATCHES ".*.hpp")
-#         get_filename_component(MYFILE_DIR ${file} DIRECTORY)
-#         include_directories(${MYFILE_DIR})
-#     endif()
-# endforeach()
+foreach (file ${helloworld_SRC})
+    set(MYFILE_DIR)
+    if (file MATCHES ".*.h")
+        get_filename_component(MYFILE_DIR ${file} DIRECTORY)
+        include_directories(${MYFILE_DIR})
+    endif()
+endforeach()
 
 
 include_directories("externalLib/glew-2.1.0/include")
@@ -58,14 +58,7 @@ add_executable(game ${helloworld_SRC})
 target_link_libraries(game myOpengl)
 
 if (WIN32)
-    target_link_libraries(game 
-        myOpengl 
-        ${SFML_LIBRARIES} 
-        glfw3
-        glew32
-        opengl32 
-        glu32 
-    )
+    target_link_libraries(game myOpengl glfw3 glew32 opengl32 glu32)
 else ()
     target_link_libraries(game glfw GL GLEW GLU glut)
 endif ()

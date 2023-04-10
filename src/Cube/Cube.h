@@ -16,18 +16,23 @@
 #include <string>
 #include <vector>
 #include <time.h>
+#include <memory>
+#include <array>
 
 class Cube {
 public:
     Cube();
     ~Cube();
 
-    void calculateDraw(const Cube &other);
+    void calculateDraw(const std::shared_ptr<Cube> &other);
+    void resetDraw();
     std::vector<GLfloat> getVertices() const;
+    std::vector<GLfloat> getVerticesUV() const;
     void setPos(const glm::vec3& pos) { _model = glm::translate(glm::mat4(1.0f), pos); }
     /**
      * @brief upper, front, left, bottom, right, back
      */
+    glm::vec3 getPos() const { return glm::vec3(_model[3]); }
     void move(const glm::vec3& dir) { _model = glm::translate(_model, dir); }
     bool _facesDraw[6] = { true, true, true, true, true, true};
 protected:
@@ -89,4 +94,5 @@ private:
         _right,
         _back
     };
+    std::array<std::vector<GLfloat>, 6> _uv = {};
 };

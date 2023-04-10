@@ -33,12 +33,15 @@ class Texture {
 		void bind() const;
 		void unbind() const;
 		GLuint getID() const { return _texture; };
-		static GLuint load(const char * imagepath);
+		int getWidth() const { return _width; };
+		int getHeight() const { return _height; };
+		int getChannels() const { return _nrChannels; };
+		static std::tuple<GLuint, int, int, int> load(const char * imagepath);
 
-		static GLuint inteligiLoad(const std::string& path);
+		static std::tuple<GLuint, int, int, int> inteligiLoad(const std::string& path);
 	protected:
 	private:
-		static std::map<std::string, GLuint> _texturesInteligi;
+		static std::map<std::string, std::tuple<GLuint, int, int, int>> _texturesInteligi;
 		GLuint _texture;
 		int _width;
 		int _height;

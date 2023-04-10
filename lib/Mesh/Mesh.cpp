@@ -191,7 +191,7 @@ void Mesh::translate(glm::vec3 vec)
 void Mesh::rotate(glm::vec3 vec)
 {
     glm::mat4 rot = glm::mat4(1.0f);
-    glm::vec3 pos;
+    glm::vec3 pos = glm::vec3(0.0f);
 
     for (int i = 0; i < _buffer.size(); i += 3) {
         pos.x += _buffer[i];
