@@ -65,8 +65,8 @@ int main_(int ac, char** av)
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(MessageCallback, 0);
 
-    const int PLATFORMS_SIZE = 16 * 4;
-    const int PLATFORMS_Y = 127;
+    const int PLATFORMS_SIZE = 200;
+    const int PLATFORMS_Y = 140;
     const int PLATFORMS_TOTAL_SIZE = PLATFORMS_SIZE * PLATFORMS_SIZE * PLATFORMS_Y;
     std::vector<std::vector<std::vector<std::shared_ptr<Cube>>>> cubes = std::vector<std::vector<std::vector<std::shared_ptr<Cube>>>>();
     std::vector<std::shared_ptr<Cube>> allcubes = std::vector<std::shared_ptr<Cube>>();
@@ -85,7 +85,7 @@ int main_(int ac, char** av)
         cubes.push_back(cubesY);
     }
 
-    std::remove(allcubes.begin(), allcubes.end(), cubes[0][1][1]); // TODO: use
+    std::remove(allcubes.begin(), allcubes.end(), cubes[0][1][1]);
     cubes[0][1][1].reset();
 
     for (int y = 0; y < PLATFORMS_Y; y++) {
@@ -138,7 +138,7 @@ int main_(int ac, char** av)
 	}
     
     Renderer renderer = Renderer();
-    const std::string PATH = "../../../assets/";
+    const std::string PATH = "../assets/";
     Shader sh = Shader(PATH + "shader");
     Texture tex = Texture(PATH + "text.png");
     tex.bind();
