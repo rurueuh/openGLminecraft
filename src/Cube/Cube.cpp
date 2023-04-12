@@ -1,61 +1,109 @@
 #include "Cube.h"
 
+std::vector<GLfloat> Cube::_upper = {
+    -0.5f, 0.5f, -0.5f,
+    0.5f, 0.5f, 0.5f,
+    0.5f, 0.5f, -0.5f,
+    -0.5f, 0.5f, -0.5f,
+    -0.5f, 0.5f, 0.5f,
+    0.5f, 0.5f, 0.5f,
+};
+std::vector<GLfloat> Cube::_front = {
+    0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f, 0.5f,
+    0.5f, -0.5f, 0.5f,
+    -0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f, 0.5f,
+    0.5f, 0.5f, 0.5f,
+};
+std::vector<GLfloat> Cube::_left = {
+    -0.5f, 0.5f, 0.5f,
+    -0.5f, 0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
+    -0.5f, 0.5f, 0.5f,
+    -0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f, 0.5f,
+};
+std::vector<GLfloat> Cube::_bottom = {
+    0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f, 0.5f,
+    -0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, -0.5f, 0.5f,
+    -0.5f, -0.5f, 0.5f,
+};
+std::vector<GLfloat> Cube::_right = {
+    0.5f, 0.5f, -0.5f,
+    0.5f, -0.5f, 0.5f,
+    0.5f, -0.5f, -0.5f,
+    0.5f, 0.5f, 0.5f,
+    0.5f, -0.5f, 0.5f,
+    0.5f, 0.5f, -0.5f,
+};
+std::vector<GLfloat> Cube::_back = {
+    -0.5f, 0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    -0.5f, -0.5f, -0.5f,
+    0.5f, 0.5f, -0.5f,
+    0.5f, -0.5f, -0.5f,
+    -0.5f, 0.5f, -0.5f,
+};
+
+std::vector<GLfloat> Cube::_upperUV = {
+    0.0f, 1.0f,
+    1.0f, 0.0f,
+    1.0f, 1.0f,
+    0.0f, 1.0f,
+    0.0f, 0.0f,
+    1.0f, 0.0f
+};
+
+std::vector<GLfloat> Cube::_frontUV = {
+    1.0f, 1.0f,
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+    0.0f, 1.0f,
+    0.0f, 0.0f,
+    1.0f, 1.0f
+};
+
+std::vector<GLfloat> Cube::_leftUV = {
+    0.0f, 1.0f,
+    1.0f, 1.0f,
+    1.0f, 0.0f,
+    0.0f, 1.0f,
+    1.0f, 0.0f,
+    0.0f, 0.0f
+};
+
+std::vector<GLfloat> Cube::_bottomUV = {
+    1.0f, 0.0f,
+    0.0f, 1.0f,
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+    1.0f, 1.0f,
+    0.0f, 1.0f
+};
+
+std::vector<GLfloat> Cube::_rightUV = {
+    1.0f, 1.0f,
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+    0.0f, 1.0f,
+    0.0f, 0.0f,
+    1.0f, 1.0f
+};
+std::vector<GLfloat> Cube::_backUV = {
+    0.0f, 1.0f,
+    1.0f, 0.0f,
+    0.0f, 0.0f,
+    1.0f, 1.0f,
+    1.0f, 0.0f,
+    0.0f, 1.0f
+};
+
 Cube::Cube()
 {
-    std::vector<GLfloat> upperTexCoords = {
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 0.0f
-    };
-    std::vector<GLfloat> frontTexCoords = {
-        1.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 1.0f
-    };
-    std::vector<GLfloat> leftTexCoords = {
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        0.0f, 0.0f
-    };
-    std::vector<GLfloat> bottomTexCoords = {
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f
-    };
-    std::vector<GLfloat> rightTexCoords = {
-        1.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 1.0f
-    };
-    std::vector<GLfloat> backTexCoords = {
-        0.0f, 1.0f,
-        1.0f, 0.0f,
-        0.0f, 0.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f
-    };
-    _uv[0] = upperTexCoords;
-    _uv[1] = frontTexCoords;
-    _uv[2] = leftTexCoords;
-    _uv[3] = bottomTexCoords;
-    _uv[4] = rightTexCoords;
-    _uv[5] = backTexCoords;
 }
 
 Cube::~Cube()
@@ -66,12 +114,23 @@ std::vector<GLfloat> Cube::getVerticesUV() const
 {
     std::vector<GLfloat> verticesUV = {};
     int i = 0;
-    for (auto &face : _faces) {
+    for (; i < 6; i += 1) {
         if (_facesDraw[i] == false) {
-            i += 1;
             continue;
         }
-        std::vector<GLfloat> tmp = _uv[i];
+        std::vector<GLfloat> tmp = {};
+        if (i == 0)
+            tmp = Cube::_upperUV;
+        if (i == 1)
+            tmp = Cube::_frontUV;
+        if (i == 2)
+            tmp = Cube::_leftUV;
+        if (i == 3)
+            tmp = Cube::_bottomUV;
+        if (i == 4)
+            tmp = Cube::_rightUV;
+        if (i == 5)
+            tmp = Cube::_backUV;
         for (int i = 0; i < tmp.size(); i += 2) {
             glm::vec4 vertex = glm::vec4(tmp[i], tmp[i + 1], 0.0f, 1.0f);
             vertex = _model * vertex;
@@ -79,7 +138,6 @@ std::vector<GLfloat> Cube::getVerticesUV() const
             tmp[i + 1] = vertex.y;
         }
         verticesUV.insert(verticesUV.end(), tmp.begin(), tmp.end());
-        i += 1;
     }
     return verticesUV;
 }
@@ -88,21 +146,31 @@ std::vector<GLfloat> Cube::getVertices() const
 {
     std::vector<GLfloat> vertices = {};
     int i = 0;
-    for (auto &face : _faces) {
+    for (; i < 6; i += 1) {
         if (_facesDraw[i] == false) {
-            i += 1;
             continue;
         }
-        std::vector<GLfloat> tmp = face;
-        for (int i = 0; i < tmp.size(); i += 3) {
-            glm::vec4 vertex = glm::vec4(tmp[i], tmp[i + 1], tmp[i + 2], 1.0f);
+        std::vector<GLfloat> tmp = {};
+        if (i == 0)
+            tmp = Cube::_upper;
+        if (i == 1)
+            tmp = Cube::_front;
+        if (i == 2)
+            tmp = Cube::_left;
+        if (i == 3)
+            tmp = Cube::_bottom;
+        if (i == 4)
+            tmp = Cube::_right;
+        if (i == 5)
+            tmp = Cube::_back;
+        for (int d = 0; d < tmp.size(); d += 3) {
+            glm::vec4 vertex = glm::vec4(tmp[d], tmp[d + 1], tmp[d + 2], 1.0f);
             vertex = _model * vertex;
-            tmp[i] = vertex.x;
-            tmp[i + 1] = vertex.y;
-            tmp[i + 2] = vertex.z;
+            tmp[d] = vertex.x;
+            tmp[d + 1] = vertex.y;
+            tmp[d + 2] = vertex.z;
         }
         vertices.insert(vertices.end(), tmp.begin(), tmp.end());
-        i += 1;
     }
     return vertices;
 }

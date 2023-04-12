@@ -54,7 +54,7 @@ std::shared_ptr<GLFWwindow> Window::initWindow()
 
     glfwMakeContextCurrent(window.get());
     glfwSetInputMode(window.get(), GLFW_STICKY_KEYS, GL_TRUE);
-    //glfwSwapInterval(0);
+    // glfwSwapInterval(0);
     initglew();
 
     glEnable(GL_DEPTH_TEST);

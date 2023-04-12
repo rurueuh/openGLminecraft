@@ -85,8 +85,8 @@ int main_(int ac, char** av)
         cubes.push_back(cubesY);
     }
 
-    std::remove(allcubes.begin(), allcubes.end(), cubes[0][1][1]);
-    cubes[0][1][1].reset();
+    std::remove(allcubes.begin(), allcubes.end(), cubes[50][80][80]);
+    cubes[50][80][80].reset();
 
     for (int y = 0; y < PLATFORMS_Y; y++) {
         for (int x = 0; x < PLATFORMS_SIZE; x++) {
@@ -140,11 +140,11 @@ int main_(int ac, char** av)
     Renderer renderer = Renderer();
     const std::string PATH = "../assets/";
     Shader sh = Shader(PATH + "shader");
-    Texture tex = Texture(PATH + "text.png");
+    Texture tex = Texture(PATH + "dirt.jpg");
     tex.bind();
     sh.use();
     sh.setTexture(0);
-    const float speed = 0.15f;
+    const float speed = 0.85f;
     bool ispressed = false;
     
     renderer.calculateDraw(allcubes);
