@@ -65,7 +65,7 @@ int main_(int ac, char** av)
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(MessageCallback, 0);
 
-    const int PLATFORMS_SIZE = 200;
+    const int PLATFORMS_SIZE = 120;
     const int PLATFORMS_Y = 140;
     const int PLATFORMS_TOTAL_SIZE = PLATFORMS_SIZE * PLATFORMS_SIZE * PLATFORMS_Y;
     std::vector<std::vector<std::vector<std::shared_ptr<Cube>>>> cubes = std::vector<std::vector<std::vector<std::shared_ptr<Cube>>>>();
