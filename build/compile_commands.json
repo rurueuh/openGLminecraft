@@ -1,0 +1,42 @@
+[
+{
+  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
+  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/myOpengl.dir/includes_CXX.rsp -g -o CMakeFiles\\myOpengl.dir\\lib\\Camera\\Camera.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\lib\\Camera\\Camera.cpp",
+  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/lib/Camera/Camera.cpp"
+},
+{
+  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
+  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/myOpengl.dir/includes_CXX.rsp -g -o CMakeFiles\\myOpengl.dir\\lib\\Mesh\\Mesh.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\lib\\Mesh\\Mesh.cpp",
+  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/lib/Mesh/Mesh.cpp"
+},
+{
+  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
+  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/myOpengl.dir/includes_CXX.rsp -g -o CMakeFiles\\myOpengl.dir\\lib\\Shader\\Shader.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\lib\\Shader\\Shader.cpp",
+  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/lib/Shader/Shader.cpp"
+},
+{
+  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
+  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/myOpengl.dir/includes_CXX.rsp -g -o CMakeFiles\\myOpengl.dir\\lib\\Texture\\Texture.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\lib\\Texture\\Texture.cpp",
+  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/lib/Texture/Texture.cpp"
+},
+{
+  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
+  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/myOpengl.dir/includes_CXX.rsp -g -o CMakeFiles\\myOpengl.dir\\lib\\Window\\Window.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\lib\\Window\\Window.cpp",
+  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/lib/Window/Window.cpp"
+},
+{
+  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
+  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/game.dir/includes_CXX.rsp -g -o CMakeFiles\\game.dir\\src\\Cube\\Cube.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\src\\Cube\\Cube.cpp",
+  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/src/Cube/Cube.cpp"
+},
+{
+  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
+  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/game.dir/includes_CXX.rsp -g -o CMakeFiles\\game.dir\\src\\Renderer\\Renderer.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\src\\Renderer\\Renderer.cpp",
+  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/src/Renderer/Renderer.cpp"
+},
+{
+  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
+  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/game.dir/includes_CXX.rsp -g -o CMakeFiles\\game.dir\\src\\main.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\src\\main.cpp",
+  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/src/main.cpp"
+}
+]
