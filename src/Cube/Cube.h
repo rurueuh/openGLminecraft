@@ -38,61 +38,17 @@ public:
 protected:
 private:
     glm::mat4 _model = glm::mat4(1.0f);
-    std::vector<GLfloat> _upper = {
-        -0.5f, 0.5f, -0.5f,
-        0.5f, 0.5f, 0.5f,
-        0.5f, 0.5f, -0.5f,
-        -0.5f, 0.5f, -0.5f,
-        -0.5f, 0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-    };
-    std::vector<GLfloat> _front = {
-        0.5f, 0.5f, 0.5f,
-        -0.5f, -0.5f, 0.5f,
-        0.5f, -0.5f, 0.5f,
-        -0.5f, 0.5f, 0.5f,
-        -0.5f, -0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-    };
-    std::vector<GLfloat> _left = {
-        -0.5f, 0.5f, 0.5f,
-        -0.5f, 0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, 0.5f, 0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, 0.5f,
-    };
-    std::vector<GLfloat> _bottom = {
-        0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, 0.5f,
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, 0.5f,
-        -0.5f, -0.5f, 0.5f,
-    };
-    std::vector<GLfloat> _right = {
-        0.5f, 0.5f, -0.5f,
-        0.5f, -0.5f, 0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, 0.5f, 0.5f,
-        0.5f, -0.5f, 0.5f,
-        0.5f, 0.5f, -0.5f,
-    };
-    std::vector<GLfloat> _back = {
-        -0.5f, 0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        0.5f, 0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        -0.5f, 0.5f, -0.5f,
-    };
-    std::array<std::vector<GLfloat>, 6> _faces = {
-        _upper,
-        _front,
-        _left,
-        _bottom,
-        _right,
-        _back
-    };
-    std::array<std::vector<GLfloat>, 6> _uv = {};
+    static std::vector<GLfloat> _upper;
+    static std::vector<GLfloat> _front;
+    static std::vector<GLfloat> _left;
+    static std::vector<GLfloat> _bottom;
+    static std::vector<GLfloat> _right;
+    static std::vector<GLfloat> _back;
+
+    static std::vector<GLfloat> _upperUV;
+    static std::vector<GLfloat> _frontUV;
+    static std::vector<GLfloat> _leftUV;
+    static std::vector<GLfloat> _bottomUV;
+    static std::vector<GLfloat> _rightUV;
+    static std::vector<GLfloat> _backUV;
 };
