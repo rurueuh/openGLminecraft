@@ -8,14 +8,14 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/maxju/Desktop/epitech/openGLminecraft/src/Cube/Cube.cpp" "CMakeFiles/game.dir/src/Cube/Cube.cpp.obj" "gcc" "CMakeFiles/game.dir/src/Cube/Cube.cpp.obj.d"
-  "C:/Users/maxju/Desktop/epitech/openGLminecraft/src/Renderer/Renderer.cpp" "CMakeFiles/game.dir/src/Renderer/Renderer.cpp.obj" "gcc" "CMakeFiles/game.dir/src/Renderer/Renderer.cpp.obj.d"
-  "C:/Users/maxju/Desktop/epitech/openGLminecraft/src/main.cpp" "CMakeFiles/game.dir/src/main.cpp.obj" "gcc" "CMakeFiles/game.dir/src/main.cpp.obj.d"
+  "/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube/Cube.cpp" "CMakeFiles/game.dir/src/Cube/Cube.cpp.o" "gcc" "CMakeFiles/game.dir/src/Cube/Cube.cpp.o.d"
+  "/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map/Map.cpp" "CMakeFiles/game.dir/src/Map/Map.cpp.o" "gcc" "CMakeFiles/game.dir/src/Map/Map.cpp.o.d"
+  "/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer/Renderer.cpp" "CMakeFiles/game.dir/src/Renderer/Renderer.cpp.o" "gcc" "CMakeFiles/game.dir/src/Renderer/Renderer.cpp.o.d"
+  "/home/ruru/Desktop/epitech/perso/openGLminecraft/src/main.cpp" "CMakeFiles/game.dir/src/main.cpp.o" "gcc" "CMakeFiles/game.dir/src/main.cpp.o.d"
   )
 
-# Targets to which this target links.
-set(CMAKE_TARGET_LINKED_INFO_FILES
-  "C:/Users/maxju/Desktop/epitech/openGLminecraft/build/CMakeFiles/myOpengl.dir/DependInfo.cmake"
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.

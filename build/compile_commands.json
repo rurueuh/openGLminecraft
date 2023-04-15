@@ -1,42 +1,56 @@
 [
 {
-  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
-  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/myOpengl.dir/includes_CXX.rsp -g -o CMakeFiles\\myOpengl.dir\\lib\\Camera\\Camera.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\lib\\Camera\\Camera.cpp",
-  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/lib/Camera/Camera.cpp"
+  "directory": "/home/ruru/Desktop/epitech/perso/openGLminecraft/build",
+  "command": "/usr/bin/g++  -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glew-2.1.0/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glfw-3.3.8.bin.WIN64/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glm -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/stb  -std=c++2a -g -o CMakeFiles/myOpengl.dir/lib/Camera/Camera.cpp.o -c /home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera/Camera.cpp",
+  "file": "/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera/Camera.cpp",
+  "output": "CMakeFiles/myOpengl.dir/lib/Camera/Camera.cpp.o"
 },
 {
-  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
-  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/myOpengl.dir/includes_CXX.rsp -g -o CMakeFiles\\myOpengl.dir\\lib\\Mesh\\Mesh.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\lib\\Mesh\\Mesh.cpp",
-  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/lib/Mesh/Mesh.cpp"
+  "directory": "/home/ruru/Desktop/epitech/perso/openGLminecraft/build",
+  "command": "/usr/bin/g++  -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glew-2.1.0/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glfw-3.3.8.bin.WIN64/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glm -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/stb  -std=c++2a -g -o CMakeFiles/myOpengl.dir/lib/Mesh/Mesh.cpp.o -c /home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh/Mesh.cpp",
+  "file": "/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh/Mesh.cpp",
+  "output": "CMakeFiles/myOpengl.dir/lib/Mesh/Mesh.cpp.o"
 },
 {
-  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
-  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/myOpengl.dir/includes_CXX.rsp -g -o CMakeFiles\\myOpengl.dir\\lib\\Shader\\Shader.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\lib\\Shader\\Shader.cpp",
-  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/lib/Shader/Shader.cpp"
+  "directory": "/home/ruru/Desktop/epitech/perso/openGLminecraft/build",
+  "command": "/usr/bin/g++  -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glew-2.1.0/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glfw-3.3.8.bin.WIN64/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glm -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/stb  -std=c++2a -g -o CMakeFiles/myOpengl.dir/lib/Shader/Shader.cpp.o -c /home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader/Shader.cpp",
+  "file": "/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader/Shader.cpp",
+  "output": "CMakeFiles/myOpengl.dir/lib/Shader/Shader.cpp.o"
 },
 {
-  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
-  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/myOpengl.dir/includes_CXX.rsp -g -o CMakeFiles\\myOpengl.dir\\lib\\Texture\\Texture.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\lib\\Texture\\Texture.cpp",
-  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/lib/Texture/Texture.cpp"
+  "directory": "/home/ruru/Desktop/epitech/perso/openGLminecraft/build",
+  "command": "/usr/bin/g++  -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glew-2.1.0/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glfw-3.3.8.bin.WIN64/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glm -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/stb  -std=c++2a -g -o CMakeFiles/myOpengl.dir/lib/Texture/Texture.cpp.o -c /home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture/Texture.cpp",
+  "file": "/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture/Texture.cpp",
+  "output": "CMakeFiles/myOpengl.dir/lib/Texture/Texture.cpp.o"
 },
 {
-  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
-  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/myOpengl.dir/includes_CXX.rsp -g -o CMakeFiles\\myOpengl.dir\\lib\\Window\\Window.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\lib\\Window\\Window.cpp",
-  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/lib/Window/Window.cpp"
+  "directory": "/home/ruru/Desktop/epitech/perso/openGLminecraft/build",
+  "command": "/usr/bin/g++  -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glew-2.1.0/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glfw-3.3.8.bin.WIN64/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glm -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/stb  -std=c++2a -g -o CMakeFiles/myOpengl.dir/lib/Window/Window.cpp.o -c /home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window/Window.cpp",
+  "file": "/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window/Window.cpp",
+  "output": "CMakeFiles/myOpengl.dir/lib/Window/Window.cpp.o"
 },
 {
-  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
-  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/game.dir/includes_CXX.rsp -g -o CMakeFiles\\game.dir\\src\\Cube\\Cube.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\src\\Cube\\Cube.cpp",
-  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/src/Cube/Cube.cpp"
+  "directory": "/home/ruru/Desktop/epitech/perso/openGLminecraft/build",
+  "command": "/usr/bin/g++  -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glew-2.1.0/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glfw-3.3.8.bin.WIN64/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glm -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/stb  -std=c++2a -g -o CMakeFiles/game.dir/src/Cube/Cube.cpp.o -c /home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube/Cube.cpp",
+  "file": "/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube/Cube.cpp",
+  "output": "CMakeFiles/game.dir/src/Cube/Cube.cpp.o"
 },
 {
-  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
-  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/game.dir/includes_CXX.rsp -g -o CMakeFiles\\game.dir\\src\\Renderer\\Renderer.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\src\\Renderer\\Renderer.cpp",
-  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/src/Renderer/Renderer.cpp"
+  "directory": "/home/ruru/Desktop/epitech/perso/openGLminecraft/build",
+  "command": "/usr/bin/g++  -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glew-2.1.0/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glfw-3.3.8.bin.WIN64/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glm -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/stb  -std=c++2a -g -o CMakeFiles/game.dir/src/Map/Map.cpp.o -c /home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map/Map.cpp",
+  "file": "/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map/Map.cpp",
+  "output": "CMakeFiles/game.dir/src/Map/Map.cpp.o"
 },
 {
-  "directory": "C:/Users/maxju/Desktop/epitech/openGLminecraft/build",
-  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/game.dir/includes_CXX.rsp -g -o CMakeFiles\\game.dir\\src\\main.cpp.obj -c C:\\Users\\maxju\\Desktop\\epitech\\openGLminecraft\\src\\main.cpp",
-  "file": "C:/Users/maxju/Desktop/epitech/openGLminecraft/src/main.cpp"
+  "directory": "/home/ruru/Desktop/epitech/perso/openGLminecraft/build",
+  "command": "/usr/bin/g++  -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glew-2.1.0/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glfw-3.3.8.bin.WIN64/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glm -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/stb  -std=c++2a -g -o CMakeFiles/game.dir/src/Renderer/Renderer.cpp.o -c /home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer/Renderer.cpp",
+  "file": "/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer/Renderer.cpp",
+  "output": "CMakeFiles/game.dir/src/Renderer/Renderer.cpp.o"
+},
+{
+  "directory": "/home/ruru/Desktop/epitech/perso/openGLminecraft/build",
+  "command": "/usr/bin/g++  -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Camera -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Mesh -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Shader -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Texture -I/home/ruru/Desktop/epitech/perso/openGLminecraft/lib/Window -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Cube -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Map -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src/Renderer -I/home/ruru/Desktop/epitech/perso/openGLminecraft/src -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glew-2.1.0/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glfw-3.3.8.bin.WIN64/include -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/glm -I/home/ruru/Desktop/epitech/perso/openGLminecraft/externalLib/stb  -std=c++2a -g -o CMakeFiles/game.dir/src/main.cpp.o -c /home/ruru/Desktop/epitech/perso/openGLminecraft/src/main.cpp",
+  "file": "/home/ruru/Desktop/epitech/perso/openGLminecraft/src/main.cpp",
+  "output": "CMakeFiles/game.dir/src/main.cpp.o"
 }
 ]
