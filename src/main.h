@@ -25,6 +25,7 @@
 #include "Mesh.hpp"
 #include "Cube/Cube.h"
 #include "Renderer/Renderer.h"
+#include "Map/Map.hpp"
 
 void WindowMoveCamera(Window& window, std::shared_ptr<Camera>& camera, const float& speed);
 void WindowMouseMoveCamera(Window& window, std::shared_ptr<Camera>& camera);

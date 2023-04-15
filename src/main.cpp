@@ -55,9 +55,12 @@ MessageCallback( GLenum source,
 
 int main_(int ac, char** av)
 {
+    const int sizeX = 300;
+    const int sizeY = 50;
+    const int sizeZ = 300;
     srand(static_cast<unsigned int>(time(NULL)));
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(
-        glm::vec3(-30, 150, -30), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f, 1920, 1080, 0.1f, 16000.0f
+        glm::vec3(sizeX / 2, sizeY + 2, sizeZ / 2), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f, 1920, 1080, 0.1f, 16000.0f
     );
     camera->RotateLeft(240.0f);
     camera->RotateDown(40.0f);
@@ -65,102 +68,20 @@ int main_(int ac, char** av)
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(MessageCallback, 0);
 
-    const int PLATFORMS_SIZE = 160;
-    const int PLATFORMS_Y = 155;
-    const int PLATFORMS_TOTAL_SIZE = PLATFORMS_SIZE * PLATFORMS_SIZE * PLATFORMS_Y;
-    std::vector<std::vector<std::vector<std::shared_ptr<Cube>>>> cubes = std::vector<std::vector<std::vector<std::shared_ptr<Cube>>>>();
-    std::vector<std::shared_ptr<Cube>> allcubes = std::vector<std::shared_ptr<Cube>>();
-    for (int y = 0; y < PLATFORMS_Y; y++) {
-        std::vector<std::vector<std::shared_ptr<Cube>>> cubesY = std::vector<std::vector<std::shared_ptr<Cube>>>();
-        for (int x = 0; x < PLATFORMS_SIZE; x++) {
-            std::vector<std::shared_ptr<Cube>> cubesX = std::vector<std::shared_ptr<Cube>>();
-            for (int z = 0; z < PLATFORMS_SIZE; z++) {
-                std::shared_ptr<Cube> cube = std::make_shared<Cube>();
-                cube->setPos(glm::vec3(x, y, z));
-                cubesX.push_back(cube);
-                allcubes.push_back(cube);
-            }
-            cubesY.push_back(cubesX);
-        }
-        cubes.push_back(cubesY);
-    }
-
-    std::remove(allcubes.begin(), allcubes.end(), cubes[50][80][80]);
-    cubes[50][80][80].reset();
-
-    for (int y = 0; y < PLATFORMS_Y; y++) {
-        for (int x = 0; x < PLATFORMS_SIZE; x++) {
-            for (int z = 0; z < PLATFORMS_SIZE; z++) {
-                std::shared_ptr<Cube> cube = cubes[y][x][z];
-                if (cube == nullptr) {
-					continue;
-                }
-                std::shared_ptr<Cube> cubeUp = nullptr;
-                std::shared_ptr<Cube> cubeDown = nullptr;
-                std::shared_ptr<Cube> cubeLeft = nullptr;
-                std::shared_ptr<Cube> cubeRight = nullptr;
-                std::shared_ptr<Cube> cubeFront = nullptr;
-                std::shared_ptr<Cube> cubeBack = nullptr;
-
-                if (y + 1 < PLATFORMS_Y) {
-                    cubeUp = cubes[y + 1][x][z];
-                }
-                if (y - 1 >= 0) {
-                    cubeDown = cubes[y - 1][x][z];
-                }
-
-                if (x - 1 >= 0) {
-                    cubeLeft = cubes[y][x - 1][z];
-                }
-                if (x + 1 < PLATFORMS_SIZE) {
-                    cubeRight = cubes[y][x + 1][z];
-                }
-                if (z - 1 >= 0) {
-                    cubeFront = cubes[y][x][z - 1];
-                }
-                if (z + 1 < PLATFORMS_SIZE) {
-                    cubeBack = cubes[y][x][z + 1];
-                }
-                if (cubeUp != nullptr)
-                    cube->calculateDraw(cubeUp);
-                if (cubeDown != nullptr)
-                    cube->calculateDraw(cubeDown);
-                if (cubeLeft != nullptr)
-                    cube->calculateDraw(cubeLeft);
-                if (cubeRight != nullptr)
-                    cube->calculateDraw(cubeRight);
-                if (cubeFront != nullptr)
-                    cube->calculateDraw(cubeFront);
-                if (cubeBack != nullptr)
-                    cube->calculateDraw(cubeBack);
-            }
-		}
-	}
-    
-    Renderer renderer = Renderer();
-    const std::string PATH = "../assets/";
-    Shader sh = Shader(PATH + "shader");
-    Texture tex = Texture(PATH + "dirt.jpg");
-    tex.bind();
-    sh.use();
-    sh.setTexture(0);
+    Map map(300, 50, 300);
     const float speed = 0.85f;
     bool ispressed = false;
     
-    renderer.calculateDraw(allcubes);
     while (window.shouldClose() == false && window.isKeyPressed(GLFW_KEY_ESCAPE) != GLFW_PRESS) {
         window.clear();
+
+        map.draw();
         
-        sh.setMVP(Window::getCamera()->getMVP());
-        sh.use();
-
-		if (window.hasFocus()) {
-			WindowMoveCamera(window, camera, speed);
-			WindowMouseMoveCamera(window, camera);
+        if (window.hasFocus()) {
+            WindowMoveCamera(window, camera, speed);
+            WindowMouseMoveCamera(window, camera);
             setWireframe(window);
-		}
-
-        renderer.render();
+        }
 
         double fps = window.getFPS();
         window.setTitle("OpenGL FPS: " + std::to_string(fps));
@@ -203,13 +124,13 @@ void MoveCube(Window& window, bool& ispressed, Cube& cube)
 int main(int argc, char** argv)
 {
     srand(static_cast<unsigned int>(time(NULL)));
-	try {
-		return main_(argc, argv);
-	}
-	catch (std::exception& e) {
-		std::cerr << e.what() << std::endl;
-		return 1;
-	}
+    try {
+        return main_(argc, argv);
+    }
+    catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
+    }
 }
 
 void WindowMouseMoveCamera(Window& window, std::shared_ptr<Camera>& camera)
@@ -234,8 +155,8 @@ void WindowMoveCamera(Window& window, std::shared_ptr<Camera>& camera, const flo
         camera->MoveLeft(speed);
     if (window.isKeyPressed(GLFW_KEY_D) == GLFW_PRESS)
         camera->MoveRight(speed);
-	if (window.isKeyPressed(GLFW_KEY_SPACE) == GLFW_PRESS)
-		camera->MoveUp(speed);
+    if (window.isKeyPressed(GLFW_KEY_SPACE) == GLFW_PRESS)
+        camera->MoveUp(speed);
     if (window.isKeyPressed(GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
         camera->MoveDown(speed);
 }

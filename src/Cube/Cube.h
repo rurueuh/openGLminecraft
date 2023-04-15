@@ -18,14 +18,21 @@
 #include <time.h>
 #include <memory>
 #include <array>
+#include <map>
+
+static std::map<uint, std::string>  _CUBE_TEXTURE = {
+    {1, "../assets/dirt.jgp"},
+    {2, "../assets/rock.jpg"},
+};
 
 class Cube {
 public:
-    Cube();
+    Cube(int id);
     ~Cube();
 
     void calculateDraw(const std::shared_ptr<Cube> &other);
     void resetDraw();
+    int getId() const { return _id; }
     std::vector<GLfloat> getVertices() const;
     std::vector<GLfloat> getVerticesUV() const;
     void setPos(const glm::vec3& pos) { _model = glm::translate(glm::mat4(1.0f), pos); }
@@ -37,6 +44,8 @@ public:
     bool _facesDraw[6] = { true, true, true, true, true, true};
 protected:
 private:
+    int _id;
+
     glm::mat4 _model = glm::mat4(1.0f);
     static std::vector<GLfloat> _upper;
     static std::vector<GLfloat> _front;

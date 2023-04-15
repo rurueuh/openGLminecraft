@@ -102,8 +102,9 @@ std::vector<GLfloat> Cube::_backUV = {
     0.0f, 1.0f
 };
 
-Cube::Cube()
+Cube::Cube(int id)
 {
+    _id = id;
 }
 
 Cube::~Cube()
