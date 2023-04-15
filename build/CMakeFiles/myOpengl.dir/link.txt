@@ -1,0 +1,2 @@
+C:\MinGW\bin\ar.exe qc libmyOpengl.a CMakeFiles/myOpengl.dir/lib/Camera/Camera.cpp.obj CMakeFiles/myOpengl.dir/lib/Mesh/Mesh.cpp.obj CMakeFiles/myOpengl.dir/lib/Shader/Shader.cpp.obj CMakeFiles/myOpengl.dir/lib/Texture/Texture.cpp.obj CMakeFiles/myOpengl.dir/lib/Window/Window.cpp.obj
+C:\MinGW\bin\ranlib.exe libmyOpengl.a
