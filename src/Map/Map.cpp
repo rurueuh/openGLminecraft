@@ -23,6 +23,8 @@ Map::Map(int sizex, int sizey, int sizez)
                 std::shared_ptr<Cube> cube = nullptr;
                 if (y + 3 < height) {
                     cube = std::make_shared<Cube>(1);
+                } else if (y + 1 == height) {
+                    cube = std::make_shared<Cube>(2);
                 } else {
                     cube = std::make_shared<Cube>(0);
                 }

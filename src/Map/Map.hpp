@@ -34,6 +34,7 @@
 static std::map<uint, std::string>  _CUBE_TEXTURE = {
     {0, "dirt.jpg"},
     {1, "rock.jpg"},
+    {2, "grass.jpg"},
 };
 
 class Map {
