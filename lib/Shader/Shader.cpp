@@ -148,5 +148,5 @@ void Shader::setMVP(glm::mat4 matrix) const
 
 void Shader::setTexture(int chan)
 {
-    glUniform1i(_textureID, chan);
+    glUniform1i(glGetUniformLocation(_programID, "myTextureSampler"), chan);
 }

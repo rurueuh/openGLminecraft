@@ -31,6 +31,11 @@
 #include "Cube/Cube.h"
 #include "Renderer/Renderer.h"
 
+static std::map<uint, std::string>  _CUBE_TEXTURE = {
+    {0, "dirt.jpg"},
+    {1, "rock.jpg"},
+};
+
 class Map {
     public:
         Map(int x, int y, int z);
@@ -48,7 +53,10 @@ class Map {
         std::vector<std::vector<std::vector<std::shared_ptr<Cube>>>> _cubes;
         std::vector<std::shared_ptr<Cube>> _allcubes;
 
-        std::shared_ptr<Texture> _texture;
-        std::shared_ptr<Shader> _shader;
-        Renderer _renderer;
+        std::map<int, std::shared_ptr<Texture>> _texture;
+        std::map<int, std::shared_ptr<Shader>> _shader;
+        std::map<int, Renderer> _renderer;
+        Renderer _tmpRenderer;
+        std::shared_ptr<Shader> _tmpShader;
+        std::shared_ptr<Texture> _tmpTexture;
 };

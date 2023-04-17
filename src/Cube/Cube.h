@@ -20,11 +20,6 @@
 #include <array>
 #include <map>
 
-static std::map<uint, std::string>  _CUBE_TEXTURE = {
-    {1, "../assets/dirt.jgp"},
-    {2, "../assets/rock.jpg"},
-};
-
 class Cube {
 public:
     Cube(int id);

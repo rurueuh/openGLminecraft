@@ -32,7 +32,7 @@ class Texture {
 		~Texture();
 		void bind() const;
 		void unbind() const;
-		GLuint getID() const { return _texture; };
+		GLuint getID() const { return _idTexture; };
 		int getWidth() const { return _width; };
 		int getHeight() const { return _height; };
 		int getChannels() const { return _nrChannels; };
@@ -42,6 +42,8 @@ class Texture {
 	protected:
 	private:
 		static std::map<std::string, std::tuple<GLuint, int, int, int>> _texturesInteligi;
+		static int _nbTextures;
+		int _idTexture;
 		GLuint _texture;
 		int _width;
 		int _height;

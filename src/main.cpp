@@ -55,9 +55,9 @@ MessageCallback( GLenum source,
 
 int main_(int ac, char** av)
 {
-    const int sizeX = 300;
+    const int sizeX = 50;
     const int sizeY = 50;
-    const int sizeZ = 300;
+    const int sizeZ = 50;
     srand(static_cast<unsigned int>(time(NULL)));
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(
         glm::vec3(sizeX / 2, sizeY + 2, sizeZ / 2), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f, 1920, 1080, 0.1f, 16000.0f
@@ -68,7 +68,7 @@ int main_(int ac, char** av)
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(MessageCallback, 0);
 
-    Map map(300, 50, 300);
+    Map map(sizeX, sizeY, sizeZ);
     const float speed = 0.85f;
     bool ispressed = false;
     

@@ -2,11 +2,14 @@
 constexpr auto DEBUG_TEXTURE = false;
 
 std::map<std::string, std::tuple<GLuint, int, int, int>> Texture::_texturesInteligi = {};
+int Texture::_nbTextures = 0;
 
 Texture::Texture(const std::string& path)
 	: _texture(0), _width(0), _height(0), _nrChannels(0), _data(nullptr)
 {
     std::tie(_texture, _width, _height, _nrChannels) = inteligiLoad(path);
+    _idTexture = _nbTextures;
+    _nbTextures++;
 }
 
 Texture::~Texture()
@@ -18,10 +21,16 @@ void Texture::bind() const
 {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 void Texture::unbind() const
 {
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 std::tuple<GLuint, int, int, int> Texture::load(const char* imagepath) {

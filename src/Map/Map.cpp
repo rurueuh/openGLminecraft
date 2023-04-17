@@ -11,7 +11,6 @@
 Map::Map(int sizex, int sizey, int sizez)
     : _sizex(sizex), _sizey(sizey), _sizez(sizez)
 {
-
     const siv::PerlinNoise::seed_type seed = /*std::random_device{}()*/ 0;
 	const siv::PerlinNoise perlin{ seed };
 	for (int x = 0; x < _sizex; x++) {
@@ -21,7 +20,12 @@ Map::Map(int sizex, int sizey, int sizez)
 			const double noise = perlin.octave2D_01((x * 0.003), (z * 0.003), 4);
             const int height = static_cast<int>(noise * _sizey);
             for (int y = 0; y < height; y++) {
-                std::shared_ptr<Cube> cube = std::make_shared<Cube>(0);
+                std::shared_ptr<Cube> cube = nullptr;
+                if (y + 3 < height) {
+                    cube = std::make_shared<Cube>(1);
+                } else {
+                    cube = std::make_shared<Cube>(0);
+                }
                 cube->setPos(glm::vec3(x, y, z));
                 cubesZ.push_back(cube);
                 _allcubes.push_back(cube);
@@ -31,30 +35,25 @@ Map::Map(int sizex, int sizey, int sizez)
         _cubes.push_back(cubesX);
     }
 
-    // for (int y = 0; y < _sizey; y++) {
-    //     std::vector<std::vector<std::shared_ptr<Cube>>> cubesY = std::vector<std::vector<std::shared_ptr<Cube>>>();
-    //     for (int x = 0; x < _sizex; x++) {
-    //         std::vector<std::shared_ptr<Cube>> cubesX = std::vector<std::shared_ptr<Cube>>();
-    //         for (int z = 0; z < _sizey; z++) {
-    //             std::shared_ptr<Cube> cube = std::make_shared<Cube>();
-    //             cube->setPos(glm::vec3(x, y, z));
-    //             cubesX.push_back(cube);
-    //             _allcubes.push_back(cube);
-    //         }
-    //         cubesY.push_back(cubesX);
-    //     }
-    //     _cubes.push_back(cubesY);
-    // }
-
     reloadCollision();
-    _renderer.calculateDraw(_allcubes);
 
     const std::string PATH = "../assets/";
-    _shader = std::make_shared<Shader>(PATH + "shader");
-    _texture = std::make_shared<Texture>(PATH + "dirt.jpg");
-    _texture->bind();
-    _shader->use();
-    _shader->setTexture(0);
+
+    for (int i = 0; i < _CUBE_TEXTURE.size(); i++) {
+        std::vector<std::shared_ptr<Cube>> cubes = std::vector<std::shared_ptr<Cube>>();
+        for (auto cube : _allcubes) {
+            int id = cube->getId();
+            if (cube->getId() == i) {
+                cubes.push_back(cube);
+            }
+        }
+        _renderer[i].calculateDraw(cubes);
+        _shader[i] = std::make_shared<Shader>(PATH + "shader");
+        _texture[i] = std::make_shared<Texture>(PATH + _CUBE_TEXTURE[i]);
+        _shader[i]->use();
+        _shader[i]->setTexture(0);
+    }
+
 }
 
 Map::~Map()
@@ -116,12 +115,25 @@ void Map::reloadCollision()
             }
 		}
 	}
-    _renderer.calculateDraw(_allcubes);
+    
+    for (int i = 0; i < _CUBE_TEXTURE.size(); i++) {
+        std::vector<std::shared_ptr<Cube>> cubes = std::vector<std::shared_ptr<Cube>>();
+        for (auto cube : _allcubes) {
+            if (cube->getId() == i) {
+                cubes.push_back(cube);
+            }
+        }
+        _renderer[i].calculateDraw(cubes);
+    }
 }
 
 void Map::draw()
 {
-    _shader->setMVP(Window::getCamera()->getMVP());
-    _shader->use();
-    _renderer.render();
+    const std::string PATH = "../assets/";
+    for (int i = 0; i < _CUBE_TEXTURE.size(); i++) {
+        _shader[i]->setMVP(Window::getCamera()->getMVP());
+        _shader[i]->use(); // TODO: we don't more than one shader
+        _texture[i]->bind();
+        _renderer[i].render();
+    }
 }
