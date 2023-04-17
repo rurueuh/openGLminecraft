@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmyOpengl.a CMakeFiles/myOpengl.dir/lib/Camera/Camera.cpp.o CMakeFiles/myOpengl.dir/lib/Mesh/Mesh.cpp.o CMakeFiles/myOpengl.dir/lib/Shader/Shader.cpp.o CMakeFiles/myOpengl.dir/lib/Texture/Texture.cpp.o CMakeFiles/myOpengl.dir/lib/Window/Window.cpp.o
-/usr/bin/ranlib libmyOpengl.a
