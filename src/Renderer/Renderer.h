@@ -32,6 +32,14 @@ class Renderer {
         ~Renderer();
         void render();
         void calculateDraw(const std::vector<std::shared_ptr<Cube>> &cubes);
+        void recalculateCube(const std::shared_ptr<Cube>& cube);
+        void removeToBuffer(std::vector<GLfloat> verticesToRemove, std::vector<GLfloat> verticesUVToRemove);
+        void calculate() {
+            glBindBuffer(GL_ARRAY_BUFFER, vbo);
+            glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_uv);
+            glBufferData(GL_ARRAY_BUFFER, verticesUV.size() * sizeof(GLfloat), verticesUV.data(), GL_STATIC_DRAW);
+        }
     protected:
     private:
         GLuint vao = 0;

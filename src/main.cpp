@@ -53,11 +53,38 @@ MessageCallback( GLenum source,
         ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ), typeString, severityString, message);
 }
 
+static void removeCube(Window& window, std::shared_ptr<Camera>& camera, Map &map)
+{
+    if (window.isKeyPressed(GLFW_KEY_E) == GLFW_PRESS) {
+        auto direction = camera->getCameraDirection();
+        glm::vec3 pos = camera->getCameraPos();
+        glm::vec3 ray = pos;
+        std::shared_ptr<Cube> cube = nullptr;
+        int range = 1000;
+        while (cube == nullptr && range != 0) {
+            ray += direction;
+            cube = map.getCube(ray.x, ray.y, ray.z);
+            range--;
+        }
+        if (cube != nullptr) {
+            int x = ray.x;
+            int y = ray.y;
+            int z = ray.z;
+            std::cout << x << " " << y << " " << z << std::endl;
+            map.removeCube(cube);
+        }
+        else {
+            std::cout << "cube not found" << std::endl;
+        }
+    }
+
+}
+
 int main_(int ac, char** av)
 {
-    const int sizeX = 300;
+    const int sizeX = 100;
     const int sizeY = 50;
-    const int sizeZ = 300;
+    const int sizeZ = 100;
     srand(static_cast<unsigned int>(time(NULL)));
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(
         glm::vec3(sizeX / 2, sizeY + 2, sizeZ / 2), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f, 1920, 1080, 0.1f, 16000.0f
@@ -81,6 +108,7 @@ int main_(int ac, char** av)
             WindowMoveCamera(window, camera, speed);
             WindowMouseMoveCamera(window, camera);
             setWireframe(window);
+            removeCube(window, camera, map);
         }
 
         double fps = window.getFPS();

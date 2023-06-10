@@ -26,6 +26,10 @@ class Camera {
         void calculateDirection();
         void calculateMVP();
 
+        glm::vec3 getCameraPos() const { return _cameraPos; };
+        glm::vec3 getCameraTarget() const { return _cameraTarget; };
+        glm::vec3 getCameraDirection() const { return _cameraDirection; };
+
         // Movement functions
         void MoveForward(float speed);
         void MoveBackward(float speed);

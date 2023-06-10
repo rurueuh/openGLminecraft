@@ -31,6 +31,8 @@
 #include "Cube/Cube.h"
 #include "Renderer/Renderer.h"
 
+typedef int uint;
+
 static std::map<uint, std::string>  _CUBE_TEXTURE = {
     {0, "dirt.jpg"},
     {1, "rock.jpg"},
@@ -44,6 +46,17 @@ class Map {
 
         void draw(void);
         void reloadCollision();
+        void reloadCollision(int x, int y, int z);
+        std::shared_ptr<Cube> getCube(int x, int y, int z) const {
+            if (x < 0 || y < 0 || z < 0 || x >= _sizex || z >= _sizez)
+				return (nullptr);
+            auto &cube = _cubes[x][z];
+            int size = cube.size();
+            if (size <= y)
+                return (nullptr);
+            return (_cubes[x][z][y]);
+        }
+        bool removeCube(const std::shared_ptr<Cube>& cube);
 
     protected:
     private:

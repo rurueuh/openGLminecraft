@@ -38,10 +38,28 @@ void Renderer::calculateDraw(const std::vector<std::shared_ptr<Cube>> &cubes)
         vertices.insert(vertices.end(), tmp.begin(), tmp.end());
         verticesUV.insert(verticesUV.end(), tmpUV.begin(), tmpUV.end());
     }
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_uv);
-    glBufferData(GL_ARRAY_BUFFER, verticesUV.size() * sizeof(GLfloat), verticesUV.data(), GL_STATIC_DRAW);
+    calculate();
+}
+
+void Renderer::recalculateCube(const std::shared_ptr<Cube>& cube)
+{
+    if (cube == nullptr)
+		return;
+    //std::vector<GLfloat> tmp = cube->getVertices();
+	//std::vector<GLfloat> tmpUV = cube->getVerticesUV();
+    //removeToBuffer(tmp, tmpUV);
+	//vertices.insert(vertices.end(), tmp.begin(), tmp.end());
+	//verticesUV.insert(verticesUV.end(), tmpUV.begin(), tmpUV.end());
+	//calculate();
+}
+
+void Renderer::removeToBuffer(std::vector<GLfloat> verticesToRemove, std::vector<GLfloat> verticesUVToRemove)
+{
+    for (auto& v : verticesToRemove)
+        vertices.erase(std::remove(vertices.begin(), vertices.end(), v), vertices.end());
+    for (auto& v : verticesUVToRemove)
+        verticesUV.erase(std::remove(verticesUV.begin(), verticesUV.end(), v), verticesUV.end());
+    calculate();
 }
 
 void Renderer::render()
