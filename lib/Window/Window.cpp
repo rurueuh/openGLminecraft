@@ -1,3 +1,4 @@
+#include "Window.hpp"
 /*
 ** EPITECH PROJECT, 2023
 ** tuto6
@@ -47,7 +48,7 @@ std::shared_ptr<GLFWwindow> Window::initWindow()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We don't want the old OpenGL 
 
-    std::shared_ptr<GLFWwindow> window(glfwCreateWindow(_width, _height, _title.c_str(), NULL, NULL), [](GLFWwindow *window) {
+    std::shared_ptr<GLFWwindow> window(glfwCreateWindow(_width, _height, _title.c_str(), glfwGetPrimaryMonitor(), NULL), [](GLFWwindow* window) {
         glfwDestroyWindow(window);
         glfwTerminate();
     });
@@ -82,6 +83,27 @@ double Window::getFPS()
 void Window::setTitle(const std::string& name)
 {
     glfwSetWindowTitle(_window.get(), name.c_str());
+}
+
+void Window::setFullscreen(bool fullscreen)
+{
+    if (fullscreen) {
+        if (!glfwExtensionSupported("GLFW_EXTENSION_EXT_swap_control")) {
+            std::cerr << "Fullscreen not supported" << std::endl;
+            return;
+        }
+        else {
+            const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+            GLFWmonitor *screen = glfwGetPrimaryMonitor();
+            if (mode == nullptr) {
+                std::cerr << "mode can't be catch" << std::endl;
+                return;
+            }
+            int x = mode->width;
+            int y = mode->height;
+            glfwSetWindowMonitor(_window.get(), glfwGetPrimaryMonitor(), 0, 0, x, y, mode->refreshRate);
+        }
+    }
 }
 
 void Window::update()

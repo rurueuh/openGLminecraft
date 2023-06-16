@@ -137,11 +137,17 @@ void Map::reloadCollision()
             }
         }
         _renderer[i].calculateDraw(cubes);
-        /*_shader[i] = std::make_shared<Shader>(PATH + "shader");
-        _texture[i] = std::make_shared<Texture>(PATH + _CUBE_TEXTURE[i]);
-        _shader[i]->use();
-        _shader[i]->setTexture(0);*/
     }
+}
+
+static void reloadCollisionRemover(const std::shared_ptr<Cube>& cube, std::map<int, Renderer>& _renderer)
+{
+    if (cube == nullptr)
+        return;
+    int rendererID = cube->getId();
+    auto& renderer = _renderer[rendererID];
+
+    renderer.removeCube(cube);
 }
 
 static void reloadCollisione(const std::shared_ptr<Cube>& cube, std::map<int, Renderer> &_renderer)
@@ -151,7 +157,7 @@ static void reloadCollisione(const std::shared_ptr<Cube>& cube, std::map<int, Re
     int rendererID = cube->getId();
     auto& renderer = _renderer[rendererID];
 
-    renderer.recalculateCube(cube);
+    renderer.addCube(cube);
 }
 
 void Map::reloadCollision(int x, int y, int z)
@@ -188,45 +194,51 @@ void Map::reloadCollision(int x, int y, int z)
             cubeBack = _cubes[x][z + 1][y];
     }
     // upper, front, left, bottom, right, back
-    if (cubeUp != nullptr)
+    if (cubeUp != nullptr) {
+        reloadCollisionRemover(cubeUp, _renderer);
         cubeUp->_facesDraw[3] = true;
-    if (cubeDown != nullptr)
-        cubeDown->_facesDraw[0] = true;
-    if (cubeLeft != nullptr)
-        cubeLeft->_facesDraw[4] = true;
-    if (cubeRight != nullptr)
-        cubeRight->_facesDraw[2] = true;
-    if (cubeFront != nullptr)
-        cubeFront->_facesDraw[1] = true;
-    if (cubeBack != nullptr)
-        cubeBack->_facesDraw[5] = true;
-
-    int rendererID = cube->getId();
-    auto &renderer = _renderer[rendererID];
-
-    for (int i = 0; i < _CUBE_TEXTURE.size(); i++) {
-        std::vector<std::shared_ptr<Cube>> cubes = std::vector<std::shared_ptr<Cube>>();
-        for (auto cube : _allcubes) {
-            if (cube == nullptr)
-                continue;
-            int id = cube->getId();
-            if (cube->getId() == i) {
-                cubes.push_back(cube);
-            }
-        }
-        _renderer[i].calculateDraw(cubes);
+		reloadCollisione(cubeUp, _renderer);
     }
+    if (cubeDown != nullptr) {
+        reloadCollisionRemover(cubeDown, _renderer);
+        cubeDown->_facesDraw[0] = true;
+        reloadCollisione(cubeDown, _renderer);
+    }
+    if (cubeLeft != nullptr) {
+        reloadCollisionRemover(cubeLeft, _renderer);
+        cubeLeft->_facesDraw[4] = true;
+        reloadCollisione(cubeLeft, _renderer);
+    }
+    if (cubeRight != nullptr){
+        reloadCollisionRemover(cubeRight, _renderer);
+        cubeRight->_facesDraw[2] = true;
+        reloadCollisione(cubeRight, _renderer);
+    }
+    if (cubeFront != nullptr) {
+        reloadCollisionRemover(cubeFront, _renderer);
+        cubeFront->_facesDraw[1] = true;
+        reloadCollisione(cubeFront, _renderer);
+    }
+    if (cubeBack != nullptr) {
+        reloadCollisionRemover(cubeBack, _renderer);
+        cubeBack->_facesDraw[5] = true;
+        reloadCollisione(cubeBack, _renderer);
+    }
+    int rendererID = cube->getId();
+    auto& renderer = _renderer[rendererID];
+    renderer.removeToBuffer(cube->getVertices(), cube->getVerticesUV());
+    for (auto &r : _renderer) {
+        r.second.calculate();
+    }
+    return;
 }
 
 bool Map::removeCube(const std::shared_ptr<Cube>& cube)
 {
-    for (auto& cube1 : _allcubes) {
-        if (cube1 == cube) {
-			cube1 = nullptr;
-		}
-	}
+    _allcubes.erase(std::remove(_allcubes.begin(), _allcubes.end(), cube), _allcubes.end());
     for (int x = 0; x < _sizex; x++) {
         for (int z = 0; z < _sizez; z++) {
+            // _cubes[x][z].erase(std::remove(_cubes[x][z].begin(), _cubes[x][z].end(), cube), _cubes[x][z].end());
             for (int y = 0; y < _cubes[x][z].size(); y++) {
                 if (_cubes[x][z][y] == cube) {
 					reloadCollision(x, y, z);

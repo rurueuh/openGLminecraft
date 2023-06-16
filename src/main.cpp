@@ -55,15 +55,19 @@ MessageCallback( GLenum source,
 
 static void removeCube(Window& window, std::shared_ptr<Camera>& camera, Map &map)
 {
-    if (window.isKeyPressed(GLFW_KEY_E) == GLFW_PRESS) {
+    static bool do_once = false;
+    if (window.isKeyPressed(GLFW_KEY_E) == GLFW_PRESS && do_once == false) {
+        do_once = true;
         auto direction = camera->getCameraDirection();
         glm::vec3 pos = camera->getCameraPos();
         glm::vec3 ray = pos;
         std::shared_ptr<Cube> cube = nullptr;
-        int range = 1000;
+        int range = 12;
         while (cube == nullptr && range != 0) {
             ray += direction;
             cube = map.getCube(ray.x, ray.y, ray.z);
+            if (cube != nullptr)
+                break;
             range--;
         }
         if (cube != nullptr) {
@@ -77,14 +81,17 @@ static void removeCube(Window& window, std::shared_ptr<Camera>& camera, Map &map
             std::cout << "cube not found" << std::endl;
         }
     }
+    else if (window.isKeyPressed(GLFW_KEY_E) == GLFW_RELEASE) {
+		do_once = false;
+    }
 
 }
 
 int main_(int ac, char** av)
 {
-    const int sizeX = 100;
-    const int sizeY = 50;
-    const int sizeZ = 100;
+    const int sizeX = 200;
+    const int sizeY = 55;
+    const int sizeZ = 200;
     srand(static_cast<unsigned int>(time(NULL)));
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(
         glm::vec3(sizeX / 2, sizeY + 2, sizeZ / 2), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f, 1920, 1080, 0.1f, 16000.0f
@@ -92,6 +99,7 @@ int main_(int ac, char** av)
     camera->RotateLeft(240.0f);
     camera->RotateDown(40.0f);
     Window window(1920, 1080, "OpenGL", camera);
+    window.setFullscreen();
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(MessageCallback, 0);
 

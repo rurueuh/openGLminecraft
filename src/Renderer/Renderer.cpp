@@ -41,24 +41,47 @@ void Renderer::calculateDraw(const std::vector<std::shared_ptr<Cube>> &cubes)
     calculate();
 }
 
-void Renderer::recalculateCube(const std::shared_ptr<Cube>& cube)
+void Renderer::removeCube(const std::shared_ptr<Cube>& cube)
+{
+    if (cube == nullptr)
+        return;
+    std::vector<GLfloat> tmp = cube->getVertices();
+    std::vector<GLfloat> tmpUV = cube->getVerticesUV();
+    removeToBuffer(tmp, tmpUV);
+}
+
+void Renderer::addCube(const std::shared_ptr<Cube>& cube)
 {
     if (cube == nullptr)
 		return;
-    //std::vector<GLfloat> tmp = cube->getVertices();
-	//std::vector<GLfloat> tmpUV = cube->getVerticesUV();
-    //removeToBuffer(tmp, tmpUV);
-	//vertices.insert(vertices.end(), tmp.begin(), tmp.end());
-	//verticesUV.insert(verticesUV.end(), tmpUV.begin(), tmpUV.end());
-	//calculate();
+    std::vector<GLfloat> tmp = cube->getVertices();
+	std::vector<GLfloat> tmpUV = cube->getVerticesUV();
+	vertices.insert(vertices.end(), tmp.begin(), tmp.end());
+	verticesUV.insert(verticesUV.end(), tmpUV.begin(), tmpUV.end());
 }
 
-void Renderer::removeToBuffer(std::vector<GLfloat> verticesToRemove, std::vector<GLfloat> verticesUVToRemove)
+void Renderer::removeToBuffer(const std::vector<GLfloat>& verticesToRemove, const std::vector<GLfloat>& verticesUVToRemove)
 {
-    for (auto& v : verticesToRemove)
-        vertices.erase(std::remove(vertices.begin(), vertices.end(), v), vertices.end());
-    for (auto& v : verticesUVToRemove)
-        verticesUV.erase(std::remove(verticesUV.begin(), verticesUV.end(), v), verticesUV.end());
+    if (verticesToRemove.empty() || verticesUVToRemove.empty())
+        return;
+    
+
+    for (int i = 0; i < vertices.size(); i++) {
+        bool found = true;
+        int index = i;
+        for (int j = 0; j < verticesToRemove.size(); j++, index++) {
+            if (index >= vertices.size() || !(vertices[index] == verticesToRemove[j])) {
+                found = false;
+                break;
+            }
+        }
+        if (found) {
+			vertices.erase(vertices.begin() + i, vertices.begin() + i + verticesToRemove.size());
+            i *= 2.f / 3.f;
+            verticesUV.erase(verticesUV.begin() + i, verticesUV.begin() + i + verticesUVToRemove.size());
+            break;
+		}
+    }
     calculate();
 }
 

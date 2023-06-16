@@ -39,6 +39,7 @@ class Window {
         // Setters
         void setMousePosition(const glm::vec2 &pos) const { glfwSetCursorPos(_window.get(), pos.x, pos.y); };
         void setTitle(const std::string& name);
+        void setFullscreen(bool fullscreen = true);
 
 
         void clear() const { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); glClearColor(0, 0, 0, 250); };
